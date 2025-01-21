@@ -1,0 +1,116 @@
+## Bringing Agora to Life: Implementation Made Easy
+
+### Quickstart: Integrating Agora
+
+1. **Chose your own adventure:** Decide how you want to run governance. Pick from our runbooks and recipes or move up to Pro / Enterprise and get consultation with our governance experts.
+2. **Token Deployment**
+   1. Decide on if you want or have ERC20 / NFT
+      1. Do you have an existing token?
+      2. Do you need a new token?
+   2. Are you launching the token with Agora Launch?
+      1. MiCA Compliant Initial Coin Offering (ICO)
+      2. Token Claim
+         1. Soft Claim → Onchain / offchain actions that lead to an address getting a specific allocation and tokens are transferred at the DAO's expense and operations
+         2. Hard Claim → Onchain / offchain actions that lead to an address getting a specific allocation and tokens are claimed directly from the person where they pay for the gas themselves
+         3. Hard + Soft Claim → Mix of both
+3. **Configure & Deploy the Governance Contracts**
+
+   Deploying the Governor involves setting some initial parameters and deploying the governance contracts to an EVM chain.
+
+   View Source: https://github.com/voteagora/agora-governor/blob/f542af211d8eeb800603dd203b6a83a804451d85/src/AgoraGovernor.sol#L129C1-L148C6
+
+   ```solidity
+   function initialize(
+       IVotesUpgradeable _votingToken,
+       address _admin,
+       address _manager,
+       TimelockControllerUpgradeable _timelock,
+       IProposalTypesConfigurator _proposalTypesConfigurator,
+       IProposalTypesConfigurator.ProposalType[] calldata _proposalTypes
+   ) public initializer {
+       PROPOSAL_TYPES_CONFIGURATOR = _proposalTypesConfigurator;
+       PROPOSAL_TYPES_CONFIGURATOR.initialize(address(this), _proposalTypes);
+
+       __Governor_init("Agora");
+       __GovernorCountingSimple_init();
+       __GovernorVotes_init(_votingToken);
+       __GovernorSettings_init({initialVotingDelay: 6575, initialVotingPeriod: 46027, initialProposalThreshold: 0});
+       __GovernorTimelockControl_init(_timelock);
+
+       admin = _admin;
+       manager = _manager;
+   }
+   ```
+
+   **Voting Delay**
+
+   The voting delay is set to 6,575 blocks. On Ethereum, where blocks are produced roughly every 12 seconds, this translates to approximately:
+
+   6,575 blocks _12 seconds = 78,900 seconds ≈ 22 hours_
+
+   The voting delay is the time period between when a proposal is created and when voting can begin. This delay gives participants time to:
+
+   - Review the proposal details and research the implications if it passes or fails
+   - Delegate their votes if needed
+   - Prepare their voting position
+
+   The delay can be modified later by the admin or timelock through the `setVotingDelay` function.
+
+   View Source: https://github.com/voteagora/agora-governor/blob/f542af211d8eeb800603dd203b6a83a804451d85/src/AgoraGovernor.sol#L335C1-L337C6
+
+   ```solidity
+   function setVotingDelay(uint256 newVotingDelay) public override onlyAdminOrTimelock {
+   	_setVotingDelay(newVotingDelay);
+   }
+   ```
+
+   **Voting Period**
+
+   The voting period is the duration during which token holders can cast their votes on a proposal after the voting delay has elapsed.
+
+   The default is set to 46,027 blocks, on Ethereum with ~12 second blocks, this translates to approximately: 46,027 blocks 12 seconds = 552,324 seconds ≈ 6.4 days
+
+   This gives token holders time to:
+
+   - Cast their votes
+   - Change their votes
+   - Participate in governance discussions
+
+   Like the voting delay, the voting period can be modified by the admin or timelock through the `setVotingPeriod` function:
+
+   View Source: https://github.com/voteagora/agora-governor/blob/f542af211d8eeb800603dd203b6a83a804451d85/src/AgoraGovernor.sol#L342
+
+   ```solidity
+   function setVotingPeriod(uint256 newVotingPeriod) public override onlyAdminOrTimelock {
+     _setVotingPeriod(newVotingPeriod);
+   }
+   ```
+
+4. **Define Proposals:** Use the ProposalTypeConfigurator to align with your DAO's workflows.
+5. **Activate Voting Modules:** Choose built-in voting styles or craft custom mechanisms.
+6. **Launch and Participate:** Token holders propose, vote, and shape the protocol—all onchain.
+
+## Agora Runbooks
+
+Beyond tools and interfaces, Agora provides Runbooks—curated guides and workflows to help you operationalize governance efficiently and confidently. Access actionable playbooks for common governance scenarios:
+
+- **Initial Governance Setup:** Learn which proposals to run first and how to configure your voting parameters.
+- **Building a Security Council:** Outline steps to form a trusted body that can handle critical decisions.
+- **Electing Stewards:** Find tips for choosing community representatives to champion long-term protocol vision.
+- **Running a Grants Program:** Explore best practices for funding community initiatives, research, and growth experiments.
+
+These Runbooks empower your community with proven frameworks and repeatable strategies, ensuring you don't have to reinvent the wheel each time you tackle a new governance challenges
+
+From CX perspective, I think JTBD should include:
+
+- Implementation -> **help technical stakeholder get comfortable with Agora** (tech signoff on contracts) ✅ 9/10
+  - could use more info abt Gov Admin (see [doc from Cairo](https://www.notion.so/273e8a366c174cba86da35e4cc7471af?pvs=21))
+    - permissions
+  - more definitions when first using word (e.g. mention of proposal threshold, approval threshold -> but do we ever define what these are?)
+- Implementation -> **help determine ideal gov parameters, especially for self serve** ✔️ 7/10
+  - I think 10/10 would include suggestions re: default proposal types, approval threshold, proposal threshold, how to determine ideal quorum, quorum using total supply vs. votable supply (is oracle still a thing?)
+- CSuccess -> **help gov mgr with day-to-day**
+  - how to create calldata
+  - how to actually execute actions from Gov Admin
+    - (I need to cancel a proposal -- how do I do this?)
+

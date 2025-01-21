@@ -15,37 +15,32 @@
       "to": "#07C983"
     }
   },
-  "topbarLinks": [
-    {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
-    }
-  ],
+  "topbarLinks": [],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Get Started",
+    "url": "https://agora.xyz"
   },
   "tabs": [
     {
-      "name": "API Refere",
+      "name": "Agora API",
       "url": "api-reference"
+    },
+    {
+      "name": "Crypto Governance",
+      "url": "crypto-governance"
     }
   ],
   "anchors": [],
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["governor", "development"]
-    },
-    {
-      "group": "Essentials",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "crypto-governance-101",
+        "agora-governor",
+        "agora-core",
+        "launch",
+        "security",
+        "quickstart"
       ]
     },
     {
@@ -53,12 +48,8 @@
       "pages": ["api-reference/introduction"]
     },
     {
-      "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
-      ]
+      "group": "Crypto Governance",
+      "pages": ["crypto-governance/glossary"]
     }
   ],
   "footerSocials": {
