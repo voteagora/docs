@@ -1,116 +1,194 @@
-## Bringing Agora to Life: Implementation Made Easy
+---
+title: Crypto Governance Quickstart
+description: "Deploy your own version of Agora to govern your DAO or protocol in minutes."
+---
 
-### Quickstart: Integrating Agora
+## Choose Your Governance Path
 
-1. **Chose your own adventure:** Decide how you want to run governance. Pick from our runbooks and recipes or move up to Pro / Enterprise and get consultation with our governance experts.
-2. **Token Deployment**
-   1. Decide on if you want or have ERC20 / NFT
-      1. Do you have an existing token?
-      2. Do you need a new token?
-   2. Are you launching the token with Agora Launch?
-      1. MiCA Compliant Initial Coin Offering (ICO)
-      2. Token Claim
-         1. Soft Claim → Onchain / offchain actions that lead to an address getting a specific allocation and tokens are transferred at the DAO's expense and operations
-         2. Hard Claim → Onchain / offchain actions that lead to an address getting a specific allocation and tokens are claimed directly from the person where they pay for the gas themselves
-         3. Hard + Soft Claim → Mix of both
-3. **Configure & Deploy the Governance Contracts**
+Every DAO's journey to full permissionless, trustless governance is unique. While the end goal might be a fully self-sustaining, onchain community, many start with more controlled environments and gradually open up. Agora supports every stage of this evolution:
 
-   Deploying the Governor involves setting some initial parameters and deploying the governance contracts to an EVM chain.
+- **Tight Control to Start**: Begin with a restrictive configuration—set high proposal thresholds or require proposals to originate from a designated manager role. This ensures stability, refined decision-making, and controlled growth in your early stages.
 
-   View Source: https://github.com/voteagora/agora-governor/blob/f542af211d8eeb800603dd203b6a83a804451d85/src/AgoraGovernor.sol#L129C1-L148C6
+- **Incremental Opening of Access**: As your community gains confidence and experience, use Agora's tools to systematically lower thresholds and expand proposal rights. Transition decision-making power from a trusted core to the broader community.
 
-   ```solidity
-   function initialize(
-       IVotesUpgradeable _votingToken,
-       address _admin,
-       address _manager,
-       TimelockControllerUpgradeable _timelock,
-       IProposalTypesConfigurator _proposalTypesConfigurator,
-       IProposalTypesConfigurator.ProposalType[] calldata _proposalTypes
-   ) public initializer {
-       PROPOSAL_TYPES_CONFIGURATOR = _proposalTypesConfigurator;
-       PROPOSAL_TYPES_CONFIGURATOR.initialize(address(this), _proposalTypes);
+- **Progressive Onchain Expansion**: Start with low-risk onchain actions—such as updating parameters or distributing small grants—to build trust and validate your governance framework. Gradually expand to encompass treasury management, infrastructure upgrades, and critical parameters.
 
-       __Governor_init("Agora");
-       __GovernorCountingSimple_init();
-       __GovernorVotes_init(_votingToken);
-       __GovernorSettings_init({initialVotingDelay: 6575, initialVotingPeriod: 46027, initialProposalThreshold: 0});
-       __GovernorTimelockControl_init(_timelock);
+Not sure where to start? We recommend starting with more controls, as it’s always easier to progressively decentralize later.
 
-       admin = _admin;
-       manager = _manager;
-   }
-   ```
+## Deploy your token
 
-   **Voting Delay**
+When implementing governance with Agora, your token strategy is foundational. Choosing the right approach depends on your DAO’s current setup, objectives, and long-term vision. Here are the options:
 
-   The voting delay is set to 6,575 blocks. On Ethereum, where blocks are produced roughly every 12 seconds, this translates to approximately:
+#### **Using an Existing Token**
 
-   6,575 blocks _12 seconds = 78,900 seconds ≈ 22 hours_
+If you already have an ERC20 token or NFT, you’re ready to integrate Agora’s governance framework seamlessly. This “plug and play” approach allows you to immediately empower your community with onchain voting and decision-making, leveraging the token’s established utility and familiarity.
 
-   The voting delay is the time period between when a proposal is created and when voting can begin. This delay gives participants time to:
+**Advantages:**
 
-   - Review the proposal details and research the implications if it passes or fails
-   - Delegate their votes if needed
-   - Prepare their voting position
+- Fast integration with Agora’s governance system.
+- Leverages an existing, recognized token within your ecosystem.
+- Reduces development time and cost by skipping token creation.
 
-   The delay can be modified later by the admin or timelock through the `setVotingDelay` function.
+**Considerations:**
 
-   View Source: https://github.com/voteagora/agora-governor/blob/f542af211d8eeb800603dd203b6a83a804451d85/src/AgoraGovernor.sol#L335C1-L337C6
+- Ensure your token aligns with your governance goals (e.g., holder distribution and utility).
+- Assess whether the current token design supports advanced features like delegation or partial delegation.
 
-   ```solidity
-   function setVotingDelay(uint256 newVotingDelay) public override onlyAdminOrTimelock {
-   	_setVotingDelay(newVotingDelay);
-   }
-   ```
+#### **Deploying a New Token**
 
-   **Voting Period**
+For DAOs that need a fresh start or additional flexibility, deploying a new token with Agora ensures a custom fit for your governance needs. Agora simplifies token creation and deployment, supporting both ERC20 and NFT standards.
 
-   The voting period is the duration during which token holders can cast their votes on a proposal after the voting delay has elapsed.
+**Advantages:**
 
-   The default is set to 46,027 blocks, on Ethereum with ~12 second blocks, this translates to approximately: 46,027 blocks 12 seconds = 552,324 seconds ≈ 6.4 days
+- Tailor the token to align with your DAO’s vision and governance requirements.
+- Seamlessly integrate features like partial delegation or specific voting thresholds.
+- Opportunity to design a tokenomics model optimized for your community.
 
-   This gives token holders time to:
+**Considerations:**
 
-   - Cast their votes
-   - Change their votes
-   - Participate in governance discussions
+- Developing a new token requires thoughtful planning around distribution, utility, and compliance.
+- Launch timing is critical—ensure readiness for the transition to governance.
 
-   Like the voting delay, the voting period can be modified by the admin or timelock through the `setVotingPeriod` function:
+#### **Facilitating Token Distribution with Agora Launch**
 
-   View Source: https://github.com/voteagora/agora-governor/blob/f542af211d8eeb800603dd203b6a83a804451d85/src/AgoraGovernor.sol#L342
+[Agora Launch](/launch) provides a structured and compliant way to distribute tokens, catering to different community needs and regulatory requirements. Choose from the following options:
 
-   ```solidity
-   function setVotingPeriod(uint256 newVotingPeriod) public override onlyAdminOrTimelock {
-     _setVotingPeriod(newVotingPeriod);
-   }
-   ```
+1. **MiCA-Compliant Initial Coin Offering (ICO):**
 
-4. **Define Proposals:** Use the ProposalTypeConfigurator to align with your DAO's workflows.
-5. **Activate Voting Modules:** Choose built-in voting styles or craft custom mechanisms.
-6. **Launch and Participate:** Token holders propose, vote, and shape the protocol—all onchain.
+   - Launch your token in compliance with EU regulations for transparent and secure distribution.
+   - Attract contributors with a legally sound framework.
 
-## Agora Runbooks
+2. **Token Claims:**
+   - **Soft Claim**: Your DAO handles the gas fees, ensuring a seamless claim process for participants.
+   - **Hard Claim**: Users pay their own gas fees to claim tokens, reducing cost burdens for the DAO.
+   - **Mixed Claim**: Combine both methods to offer flexibility for your community.
 
-Beyond tools and interfaces, Agora provides Runbooks—curated guides and workflows to help you operationalize governance efficiently and confidently. Access actionable playbooks for common governance scenarios:
+**Advantages:**
 
-- **Initial Governance Setup:** Learn which proposals to run first and how to configure your voting parameters.
-- **Building a Security Council:** Outline steps to form a trusted body that can handle critical decisions.
-- **Electing Stewards:** Find tips for choosing community representatives to champion long-term protocol vision.
-- **Running a Grants Program:** Explore best practices for funding community initiatives, research, and growth experiments.
+- Clear, structured distribution methods tailored to your DAO’s needs.
+- Builds trust and accessibility with compliant and efficient launch mechanisms.
+- Flexibility to adapt to varying levels of user engagement and technical expertise.
 
-These Runbooks empower your community with proven frameworks and repeatable strategies, ensuring you don't have to reinvent the wheel each time you tackle a new governance challenges
+**Considerations:**
 
-From CX perspective, I think JTBD should include:
+- Token claims require precise configuration to ensure smooth execution.
+- Compliance and transparency are critical—errors can damage trust and governance credibility.
 
-- Implementation -> **help technical stakeholder get comfortable with Agora** (tech signoff on contracts) ✅ 9/10
-  - could use more info abt Gov Admin (see [doc from Cairo](https://www.notion.so/273e8a366c174cba86da35e4cc7471af?pvs=21))
-    - permissions
-  - more definitions when first using word (e.g. mention of proposal threshold, approval threshold -> but do we ever define what these are?)
-- Implementation -> **help determine ideal gov parameters, especially for self serve** ✔️ 7/10
-  - I think 10/10 would include suggestions re: default proposal types, approval threshold, proposal threshold, how to determine ideal quorum, quorum using total supply vs. votable supply (is oracle still a thing?)
-- CSuccess -> **help gov mgr with day-to-day**
-  - how to create calldata
-  - how to actually execute actions from Gov Admin
-    - (I need to cancel a proposal -- how do I do this?)
+### Final Advice
 
+Token launches are high-stakes, one-time events. A poorly planned launch can undermine your DAO’s trust and governance framework. If you’re unsure which strategy suits your needs, it’s best to consult with Agora’s governance experts before proceeding. Together, we’ll ensure your launch is optimized for success.
+
+<Card
+  title="Learn about our launch product"
+  icon="rocket"
+  href="https://www.agora.xyz/deploy?utm_source=getting_started_cta&utm_medium=referral&utm_campaign=docs1"
+>
+  Talk to one of our governance experts to learn how Agora can help you lauch
+  your token to start your governance on the right foot.
+</Card>
+
+---
+
+## Deploy the Governor
+
+<Warning>This section assumes that you have a deep understanding of solifity, smart contracts and deployments.</Warning>
+
+First, clone the Agora Governor repository to your local environment:
+
+```bash
+git clone https://github.com/voteagora/agora-governor.git
+cd agora-governor
+```
+
+### Install Foundry
+
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+```
+
+### Install dependencies
+
+```bash
+forge install
+```
+
+### Configure the Environment
+
+```bash
+cp .env.example .env
+```
+
+Edit the `.env` file to include your specific configuration, such as:
+* Private key for the deployment wallet
+* RPC URL for the Ethereum node you’ll connect to
+* Contract-specific settings
+
+
+### Build the contracts
+
+```bash
+forge build
+```
+
+Check for any compilation errors and resolve them before proceeding.
+
+### Write the Deployment Script
+
+```bash
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.17;
+
+import "forge-std/Script.sol";
+import "../src/AgoraGovernor.sol";
+
+contract DeployAgoraGovernor is Script {
+    function run() external {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        vm.startBroadcast(deployerPrivateKey);
+
+        IVotesUpgradeable votingToken = IVotesUpgradeable(vm.envAddress("VOTING_TOKEN_ADDRESS"));
+        address admin = vm.envAddress("ADMIN_ADDRESS");
+        address manager = vm.envAddress("MANAGER_ADDRESS");
+        TimelockControllerUpgradeable timelock = TimelockControllerUpgradeable(vm.envAddress("TIMELOCK_ADDRESS"));
+        IProposalTypesConfigurator proposalTypesConfigurator = IProposalTypesConfigurator(vm.envAddress("PROPOSAL_CONFIGURATOR_ADDRESS"));
+
+        AgoraGovernor governor = new AgoraGovernor();
+        governor.initialize(votingToken, admin, manager, timelock, proposalTypesConfigurator, new IProposalTypesConfigurator ProposalType        
+        vm.stopBroadcast();
+    }
+}
+```
+
+### Deploy the contracts
+
+```bash
+forge script script/DeployAgoraGovernor.s.sol --rpc-url <RPC_URL> --broadcast --verify
+```
+
+Replace `<RPC_URL>` with your Ethereum node URL. If deployment verification is needed, ensure you’ve configured an Etherscan API key in your `.env` file.
+
+
+### Verify the deployment
+
+1. Check the deployed contract addresses in the output of your script.
+2. Use a blockchain explorer (e.g., Etherscan) to verify the contracts were deployed correctly.
+3. Interact with the contract’s methods to confirm its initialization, such as retrieving the votingToken or admin address.
+
+## Next Steps
+
+Now that your Agora Governor is deployed, it’s time to bring it to life with a client that interacts with your governance contracts. You have two options:
+
+1. Use Agora’s open source client as a starting place
+   Visit [Agora Next](https://github.com/voteagora/agora-next) to access a pre-built client designed to seamlessly work with Agora Governor. This client provides an open source solution to serve your governance app, complete with core features like proposal creation, voting, and results visualization. It’s the fastest way to get started and ensures you’re using a trusted, tested solution. You will need to modify the data endpoints and roll your own database, but if you are a skilled developer and willing to put in the time you can make it happen with this as a starting point. We accept PRs too 🥳.
+
+2. Roll Your Own Custom Client
+   If you prefer building your own governance interface, all data emitted by Agora Governor contracts can be indexed and stored by you. Use this data to design and develop a bespoke governance app tailored to your community’s unique needs. With Agora, you have full flexibility to innovate and create something amazing.
+
+<Card
+  title="Need help with your deployment?"
+  icon="code"
+  href="https://www.agora.xyz/deploy?utm_source=quickstart_cta&utm_medium=referral&utm_campaign=docs1"
+>
+While both options are accessible, setting up a governance client can be complex. If you want a quick and smooth experience, reach out to our team—we’d love to help you get up and running with the Agora Next client or assist you in creating your own solution.
+</Card>
