@@ -4,30 +4,70 @@ description: "Learn the crypto governance jargon, look smarter in meetings."
 ---
 
 ## Aproval threshold
+
 The percentage of votes that a proposal needs to succeed and execute the proposal's [proposed transactions](#proposed-transactions). A standard proposal using the [Bravo](#bravo) (for/against/abstain) counting method has an approval threshold of 51% mirroring to common sense democracies in the real world.
 
-## Bravo 
+## Bravo
+
 Bravo is the codename used for the default voting module in the Agora Governor. It allows delegates to vote For/Against/Abstain.
 
 The word comes from the Compound Bravo governor which popularized this voting mechanism.
 
 ## Delegate
+
 The name given to an address on a blockchain that holds [voting power](#voting-power). Delegates vote on [proposals](#proposals) and can delegate their voting power to others.
 
-## Proposals
-Onchain proposals are an object created in the storage of the governor smart contract that contain: 
-* a description
-* a proposal type
-* a list of [proposed transactions](#proposed-transactions)
-Proposals are the objects that move the governance of the protocol forward. 
+## Governor admin
 
-Think of them as bills, or laws in a typical democractic system. 
+A privileged role that can perform emergency actions like canceling malicious proposals. This role can be transferred or removed through governance.
+
+## Proposals
+
+Onchain proposals are an object created in the storage of the governor smart contract that contain:
+
+- a description
+- a proposal type
+- a list of [proposed transactions](#proposed-transactions)
+  Proposals are the objects that move the governance of the protocol forward.
+
+Think of them as bills, or laws in a typical democractic system.
 
 ## Proposal threshold
+
 The [voting power](#voting-power) needed to create a proposal and send it to the governance system for a vote.
 
+## Quorum
+
+The minimum number of votes needed for a proposal to be considered valid. This ensures that important decisions aren't made with too little participation from the community.
+
 ## Proposed transactions
+
 Onchain [proposals](#proposals) can have one or many blockchain transactions attached to them that will be executed once the proposal succeeds and moves through the delay period of the proposal lifecyclye. The power of these transactions is that if the proposal passes, and is not cancelled during the queue period, the transactions attached are sent to the chain for execution. This allows for true automated actions and automated governance.
 
+## Timelock
+
+A security mechanism that enforces a waiting period between when a proposal is approved and when it can be executed. This gives the community time to react to potentially malicious proposals.
+
+## Voting delay
+
+The period between when a proposal is created and when voting can begin. This ensures the community has time to research and discuss the proposal before casting votes.
+
+## Voting period
+
+The duration during which token holders can cast their votes on a proposal. This period starts after the voting delay ends.
+
 ## Voting power
-The specific number of votes a crypto wallet has at a given block. In the standard [Agora Governor](/agora-governor) the voting power of an address is determined at the block the proposal was created + the voting delay. 
+
+The specific number of votes a crypto wallet has at a given block. In the standard [Agora Governor](/agora-governor) the voting power of an address is determined at the block the proposal was created + the voting delay.
+
+## Proposal type
+
+A configuration that defines the rules, thresholds, and requirements for different kinds of proposals. Different proposal types can have different quorum requirements, approval thresholds, and voting modules.
+
+## Voting module
+
+A component that defines how votes are counted and processed. Examples include Bravo (For/Against/Abstain), Approval, and Optimistic voting.
+
+## Votable supply
+
+The total amount of tokens that are eligible to vote at a given time, excluding tokens that are locked, unclaimed, or otherwise unable to participate in governance.
