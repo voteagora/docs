@@ -7,11 +7,11 @@ description: "Deploy your own version of Agora to govern your DAO or protocol in
 
 Every DAO's journey to full permissionless, trustless governance is unique. While the end goal might be a fully self-sustaining, onchain community, many start with more controlled environments and gradually open up. Agora supports every stage of this evolution:
 
-- **Tight Control to Start**: Begin with a restrictive configuration—set high proposal thresholds or require proposals to originate from a designated manager role. This ensures stability, refined decision-making, and controlled growth in your early stages.
+* **Tight Control to Start**: Begin with a restrictive configuration—set high proposal thresholds or require proposals to originate from a designated manager role. This ensures stability, refined decision-making, and controlled growth in your early stages.
 
-- **Incremental Opening of Access**: As your community gains confidence and experience, use Agora's tools to systematically lower thresholds and expand proposal rights. Transition decision-making power from a trusted core to the broader community.
+* **Incremental Opening of Access**: As your community gains confidence and experience, use Agora's tools to systematically lower thresholds and expand proposal rights. Transition decision-making power from a trusted core to the broader community.
 
-- **Progressive Onchain Expansion**: Start with low-risk onchain actions—such as updating parameters or distributing small grants—to build trust and validate your governance framework. Gradually expand to encompass treasury management, infrastructure upgrades, and critical parameters.
+* **Progressive Onchain Expansion**: Start with low-risk onchain actions—such as updating parameters or distributing small grants—to build trust and validate your governance framework. Gradually expand to encompass treasury management, infrastructure upgrades, and critical parameters.
 
 Not sure where to start? We recommend starting with more controls, as it’s always easier to progressively decentralize later.
 
@@ -25,14 +25,17 @@ If you already have an ERC20 token or NFT, you’re ready to integrate Agora’s
 
 **Advantages:**
 
-- Fast integration with Agora’s governance system.
-- Leverages an existing, recognized token within your ecosystem.
-- Reduces development time and cost by skipping token creation.
+* Fast integration with Agora’s governance system.
+
+* Leverages an existing, recognized token within your ecosystem.
+
+* Reduces development time and cost by skipping token creation.
 
 **Considerations:**
 
-- Ensure your token aligns with your governance goals (e.g., holder distribution and utility).
-- Assess whether the current token design supports advanced features like delegation or partial delegation.
+* Ensure your token aligns with your governance goals (e.g., holder distribution and utility).
+
+* Assess whether the current token design supports advanced features like delegation or partial delegation.
 
 #### **Deploying a New Token**
 
@@ -40,14 +43,17 @@ For DAOs that need a fresh start or additional flexibility, deploying a new toke
 
 **Advantages:**
 
-- Tailor the token to align with your DAO’s vision and governance requirements.
-- Seamlessly integrate features like partial delegation or specific voting thresholds.
-- Opportunity to design a tokenomics model optimized for your community.
+* Tailor the token to align with your DAO’s vision and governance requirements.
+
+* Seamlessly integrate features like partial delegation or specific voting thresholds.
+
+* Opportunity to design a tokenomics model optimized for your community.
 
 **Considerations:**
 
-- Developing a new token requires thoughtful planning around distribution, utility, and compliance.
-- Launch timing is critical—ensure readiness for the transition to governance.
+* Developing a new token requires thoughtful planning around distribution, utility, and compliance.
+
+* Launch timing is critical—ensure readiness for the transition to governance.
 
 #### **Facilitating Token Distribution with Agora Launch**
 
@@ -55,39 +61,42 @@ For DAOs that need a fresh start or additional flexibility, deploying a new toke
 
 1. **MiCA-Compliant Initial Coin Offering (ICO):**
 
-   - Launch your token in compliance with EU regulations for transparent and secure distribution.
-   - Attract contributors with a legally sound framework.
+   * Launch your token in compliance with EU regulations for transparent and secure distribution.
+
+   * Attract contributors with a legally sound framework.
 
 2. **Token Claims:**
-   - **Soft Claim**: Your DAO handles the gas fees, ensuring a seamless claim process for participants.
-   - **Hard Claim**: Users pay their own gas fees to claim tokens, reducing cost burdens for the DAO.
-   - **Mixed Claim**: Combine both methods to offer flexibility for your community.
+
+   * **Soft Claim**: Your DAO handles the gas fees, ensuring a seamless claim process for participants.
+
+   * **Hard Claim**: Users pay their own gas fees to claim tokens, reducing cost burdens for the DAO.
+
+   * **Mixed Claim**: Combine both methods to offer flexibility for your community.
 
 **Advantages:**
 
-- Clear, structured distribution methods tailored to your DAO’s needs.
-- Builds trust and accessibility with compliant and efficient launch mechanisms.
-- Flexibility to adapt to varying levels of user engagement and technical expertise.
+* Clear, structured distribution methods tailored to your DAO’s needs.
+
+* Builds trust and accessibility with compliant and efficient launch mechanisms.
+
+* Flexibility to adapt to varying levels of user engagement and technical expertise.
 
 **Considerations:**
 
-- Token claims require precise configuration to ensure smooth execution.
-- Compliance and transparency are critical—errors can damage trust and governance credibility.
+* Token claims require precise configuration to ensure smooth execution.
+
+* Compliance and transparency are critical—errors can damage trust and governance credibility.
 
 ### Final Advice
 
 Token launches are high-stakes, one-time events. A poorly planned launch can undermine your DAO’s trust and governance framework. If you’re unsure which strategy suits your needs, it’s best to consult with Agora’s governance experts before proceeding. Together, we’ll ensure your launch is optimized for success.
 
-<Card
-  title="Learn about our launch product"
-  icon="rocket"
-  href="https://www.agora.xyz/deploy?utm_source=getting_started_cta&utm_medium=referral&utm_campaign=docs1"
->
+<Card title="Learn about our launch product" icon="rocket" href="https://www.agora.xyz/deploy?utm_source=getting_started_cta&utm_medium=referral&utm_campaign=docs1">
   Talk to one of our governance experts to learn how Agora can help you lauch
   your token to start your governance on the right foot.
 </Card>
 
----
+***
 
 ## Deploy the Governor
 
@@ -120,10 +129,12 @@ cp .env.example .env
 ```
 
 Edit the `.env` file to include your specific configuration, such as:
-* Private key for the deployment wallet
-* RPC URL for the Ethereum node you’ll connect to
-* Contract-specific settings
 
+* Private key for the deployment wallet
+
+* RPC URL for the Ethereum node you’ll connect to
+
+* Contract-specific settings
 
 ### Build the contracts
 
@@ -168,11 +179,12 @@ forge script script/DeployAgoraGovernor.s.sol --rpc-url <RPC_URL> --broadcast --
 
 Replace `<RPC_URL>` with your Ethereum node URL. If deployment verification is needed, ensure you’ve configured an Etherscan API key in your `.env` file.
 
-
 ### Verify the deployment
 
 1. Check the deployed contract addresses in the output of your script.
+
 2. Use a blockchain explorer (e.g., Etherscan) to verify the contracts were deployed correctly.
+
 3. Interact with the contract’s methods to confirm its initialization, such as retrieving the votingToken or admin address.
 
 ## Next Steps
@@ -185,10 +197,6 @@ Now that your Agora Governor is deployed, it’s time to bring it to life with a
 2. Roll Your Own Custom Client
    If you prefer building your own governance interface, all data emitted by Agora Governor contracts can be indexed and stored by you. Use this data to design and develop a bespoke governance app tailored to your community’s unique needs. With Agora, you have full flexibility to innovate and create something amazing.
 
-<Card
-  title="Need help with your deployment?"
-  icon="code"
-  href="https://www.agora.xyz/deploy?utm_source=quickstart_cta&utm_medium=referral&utm_campaign=docs1"
->
-While both options are accessible, setting up a governance client can be complex. If you want a quick and smooth experience, reach out to our team—we’d love to help you get up and running with the Agora Next client or assist you in creating your own solution.
+<Card title="Need help with your deployment?" icon="code" href="https://www.agora.xyz/deploy?utm_source=quickstart_cta&utm_medium=referral&utm_campaign=docs1">
+  While both options are accessible, setting up a governance client can be complex. If you want a quick and smooth experience, reach out to our team—we’d love to help you get up and running with the Agora Next client or assist you in creating your own solution.
 </Card>
