@@ -1,0 +1,225 @@
+---
+title: Agora Governor
+description: "Modern and flexible smart contracts to power your crypto governance."
+---
+
+Agora isn’t just a contract suite; it’s a cohesive operating system built to simplify and scale every aspect of decentralized governance. By combining intuitive interfaces, structured proposal creation, and flexible voting mechanisms, Agora ensures that your community’s voice is both clearly heard and reliably enforced.
+
+### Built ontop of Open Zeppelin’s industry standard governance system
+
+Agora stands on the shoulders of OpenZeppelin’s battle-tested contracts. By building atop these industry standards, Agora ensures:
+
+- **Trust and Familiarity:** Developers and auditors understand the OpenZeppelin codebase, expediting integration and security reviews.
+- **Cost and Time Efficiency:** Reduce audit overhead and complexity by relying on well-known primitives.
+- **Modular Extensibility:** Easily plug in new features or upgrades without rewriting your entire governance stack.
+
+Agora’s enhancements—like partial delegation, advanced proposal configuration, and expanded module support—provide a cutting-edge governance platform built with proven foundations.
+
+![CleanShot 2024-12-11 at 11.27.22@2x.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/c82d05ff-47d7-48d8-bcf8-39ac135426b8/ba98d3a6-9b51-432c-871a-ce48e55f3590/CleanShot_2024-12-11_at_11.27.222x.png)
+
+Think of Agora as edge OpenZeppelin. We are meeting our customers on the frontlines of governance and are committed to Open Source and giving back to the OpenZeppelin community. This is why we are a proud member of the [Governance Working group led by OpenZeppelin](https://blog.openzeppelin.com/announcing-a-new-working-group-for-openzeppelin-governor) and includes other great founding members such as Tally and ScopeLift.
+
+### The Agora Governor Contracts
+
+**The heart of the secure onchain actions that power governance**
+
+Here is the high level structure of the contract code:
+
+https://github.com/voteagora/agora-governor
+
+```solidity
+.
+├── interfaces
+│   ├── IAgoraGovernor.sol
+│   └── IProposalTypesConfigurator.sol
+├── lib
+│   └── openzeppelin
+│       └── v2
+├── modules
+│   ├── ApprovalVotingModule.sol
+│   ├── OptimisticModule.sol
+│   └── VotingModule.sol
+├── AgoraGovernor.sol
+└── ProposalTypesConfigurator.sol
+
+```
+
+### **The Governor → AgoraGovernor.sol**
+
+**The Orchestrator of Decentralized Governance**
+
+`AgoraGovernor` is the central hub that manages the entire onchain governance lifecycle, turning raw community input into enforceable actions. By melding flexible configuration, modular design, and secure execution, it ensures that decentralized decision-making remains robust, efficient, and adaptable as your protocol evolves.
+
+**Key Concepts:**
+
+1. **Multi-Module Architecture for Tailored Governance**
+
+   Unlike monolithic governance solutions, `AgoraGovernor` integrates with external voting modules, allowing you to blend or swap out different voting strategies as your community’s needs change. Whether you prefer traditional voting, approval-based selection, or optimistic fast-tracking, you are free to build your own voting module, or use one of Agora’s existing modules.
+
+2. **Fine-Grained Proposal Management and Enforcement**
+
+   `AgoraGovernor` coordinates the entire proposal lifecycle—creating, queuing, voting, and executing actions. It leverages the `ProposalTypesConfigurator` contract to apply distinct rules, thresholds, and scopes for each proposal type. Need a separate approval process for critical upgrades or treasury disbursements? Define a specialized proposal type, and `AgoraGovernor` ensures it follows the correct process from start to finish.
+
+3. **Role-Based Access and Authorized Adjustments**
+
+   With dedicated `admin` and `manager` roles, `AgoraGovernor` carefully balances flexibility and security. This tiered approach ensures that common governance parameters (like voting delays or proposal thresholds) can be tuned over time by trusted parties or the timelock—without sacrificing the decentralized ethos at the heart of the protocol.
+
+4. **Timelock Integration for Secure Deliberation**
+
+   By incorporating a timelock controller, `AgoraGovernor` introduces enforced waiting periods between proposal approval and execution. This buffer gives token holders and stakeholders time to review decisions, mitigating risk from rushed proposals or malicious governance attacks.
+
+5. **Robust Voting and Quorum Mechanisms**
+
+   `AgoraGovernor` calculates voting power snapshots and enforces quorum requirements and approval thresholds derived from `ProposalTypesConfigurator`. This ensures that significant changes gain broad, verifiable community support before taking effect. Furthermore, the contract’s integration with voting modules lets you push beyond vanilla majority votes into richer, more nuanced consensus models.
+
+6. **Event-Driven Transparency and Auditable History**
+
+   From proposal creation to final execution, `AgoraGovernor` emits granular events. This provides a transparent, onchain record of governance activity, enabling the community, analysts, and auditors to track exactly who proposed what, how votes were cast, and which measures ultimately passed. This event-driven audit trail underpins governance legitimacy and community trust.
+
+7. **Granular Control Over Execution and Relay**
+
+   By integrating seamlessly with approved modules and controlling the relay of external calls, `AgoraGovernor` ensures that only vetted governance actions make it to execution. This prevents unauthorized code paths, stops malicious modules in their tracks, and fosters a controlled environment where every executed action has a well-defined, community-approved origin.
+
+8. **Extensibility and Future-Proofing**
+
+   As the protocol matures, governance needs can evolve—perhaps shifting from a single token model to a multi-asset voting scheme or adding new proposal types that reflect emerging community priorities. `AgoraGovernor` is built to accommodate these changes without heavy refactoring. Update your proposal types, approve new voting modules, or change governance parameters—all with minimal friction and maximum auditability.
+
+### Proposal Types → ProposalTypesConfigurator.sol
+
+**Structured, reliable proposals at scale.**
+
+ProposalTypes allow you and your governance team to set limits and guards on what proposals can do. Actions that are dangerous and potentially destructive such as:
+
+- Transfering more than X from the treasury
+- or upgrading the protocol to a new address
+
+These actions might require a higher quorum or higher approval threshold. Whereas smaller, lower stakes actions such as:
+
+- Fund this pre-approved grant committee for another year
+- Decide on the date of the next election cycle
+
+Might require lower quorum and approval thresholds so that governance doesn’t grind to a halt when more procedural day to day operations need to approved.
+
+The `ProposalTypesConfigurator` contract streamlines and secures how proposal types are defined and managed within the Agora governance operating system. A proposal type is more than just a label: it represents a distinct governance scope, including the rules, thresholds, and authorized modules associated with that category of proposals.
+
+**Key Concepts:**
+
+1. **Typed, Scoped Proposals:**
+
+   Each proposal type encodes specific requirements and constraints—such as quorum and approval thresholds—tailored to the unique demands of different governance actions. The contract creates clear scopes, allowing only certain parts of your system (e.g., a treasury, a security council module, or a grants program) to produce or interact with proposals of that type.
+
+2. **Secure Initialization and Updates:**
+
+   The contract can be initialized with a predefined set of proposal types during deployment, ensuring that the governance framework launches with well-defined parameters. After initialization, only the governance admin or the timelock can adjust proposal types, guaranteeing that any changes undergo the proper authorization processes.
+
+3. **Granular Parameterization for Quorums and approvals:**
+
+   Each proposal type sets a quorum and approval threshold, both scaled by `PERCENT_DIVISOR` for precise percentage-based calculations. These parameters ensure that the right proportion of token holders or delegates must support a proposal before it can pass. Additionally, the contract enforces input validation, preventing misconfiguration of these critical governance levers.
+
+## Modules
+
+**Extending and customizing your governance system**
+
+In crypto communities, no single voting mechanism will satisfy all the needs of a community over time. Recognizing that governance should evolve with your protocol, Agora’s module system empowers you to incorporate new voting strategies with ease—without changing the core governor contract.
+
+**Key Concepts:**
+
+- **Plug and Play Expansion:** Modules let you introduce new voting rules, data encodings, and counting methods without touching the main governor contract
+- **Secure Approval Flow:** Before a module can influence governance, it must be explicitly approved by the governor (admin or timelock). This ensures that only vetted modules become part of your governance pipeline.
+- **Fully Customizable:** As long as your module adheres to the provided `VotingModule` interface, you can tailor your logic to represent any decision-making approach—be it Quadratic Voting, Ranked-Choice, Retroactive Funding, or entirely novel schemes.
+- **Seamless Interoperability:** By leveraging the `IAgoraGovernor` interface and returning standard `proposalData` and `params` encodings, modules integrate smoothly with the existing governance flow, frontends, and tooling.
+- **Flexibility for the Future:** Governance can adapt to shifting community values and technological advances. Introduce new modules as your protocol matures, and retire old ones when they’re no longer needed.
+
+### Voting Modules
+
+The `VotingModule` abstract contract defines a consistent interface that every voting module must implement. This includes functions to:
+
+- **Propose** a new governance action with custom data encodings.
+- **Count Votes** according to the module’s logic. (`_countVote`)
+- **Format Execution Parameters** so the governor knows how to call contracts if the proposal passes. (`_formatExecuteParams`)
+- **Check if a Proposal’s Vote Succeeded** (optional logic).
+- **Declare Input Encodings** so external clients know how to interact without guesswork.
+
+Each module is constructed with the governor’s address, ensuring a cryptographic link between governance and the module. Modules must implement `_onlyGovernor()` checks, so only the governor orchestrates module operations.
+
+**For/Against/Abstain Already Built-In:**
+
+The core `AgoraGovernor` uses a **Bravo** counting mode by default, meaning each vote is categorized as For, Against, or Abstain. Modules can build on top of this standard classification or override counting logic to interpret votes differently.
+
+<Note>
+  **Why is it called Bravo?** Fun fact that the history of Agora Governor
+  started with the Compound protocol. Compound released Governor Alpha in 2019
+  and then hardened these concepts in Governor Bravo in 2020. This became the
+  basis of OpenZeppelin’s OZ Gov libraries that form the open source, standards
+  compliant base of Agora Governor.
+</Note>
+
+### Approval Voting Module
+
+This module introduces a more nuanced form of voting. Instead of a simple yes/no/abstain (For/Against/abstain), it allows voters to support multiple options. It includes capabilities like:
+
+- **Multiple Options:** Voters can spread their support across several proposals if allowed.
+- **Budget Constraints:** Integrate a token budget to ensure certain proposals don’t exceed allocated resources.
+- **Complex Scoring:** Proposals can win by meeting thresholds or by ranking as a top choice among many.
+
+This approach is ideal for complex grant distributions, multi-round elections, or scenario planning. By integrating this module, you give your community the ability to endorse multiple outcomes simultaneously—encouraging richer, more diverse consensus-building.
+
+Dive into the code, [ApprovalVotingModule.sol](https://github.com/voteagora/agora-governor/blob/f542af211d8eeb800603dd203b6a83a804451d85/src/modules/ApprovalVotingModule.sol)
+
+### Optimistic Voting
+
+This module provides an “optimistic” governance mechanism. Instead of needing a majority **For** vote to pass, proposals pass by default unless a certain threshold of **Against** votes is reached. It can also scale thresholds relative to the total votable supply, giving a dynamic security measure that adjusts to community participation levels.
+
+This design is perfect for fast-moving communities that want minimal friction on routine decisions while maintaining strong safeguards for controversial changes. It’s a flexible approach that can speed up common proposals while still providing a backstop against harmful actions.
+
+**Why Signal Only?**
+
+Onchain proposal can be signal proposals → onchain action does nothing ie: the proposal has no calldata that impacts the chain.
+
+Or proposal can be onchain executable → the proposal transaction will be executed and carry out an onchain state change.
+
+Optimism proposal carry a significant security risk and can be used as an attack vector. Someone could propose a malicious Optimistic vote during a company offsite, or at time when they think your team / governance system won’t be around. for that reason by default, we ensure that Optimistic proposals don’t have any actionable calldata.
+
+If you want or need onchain optimistic proposals that have an effect on the chain, please let us know. You will need to implement a security council and know your risks before we will turn that on for you and your community.
+
+Dive into the code, [OptimisticModule.sol](https://github.com/voteagora/agora-governor/blob/f542af211d8eeb800603dd203b6a83a804451d85/src/modules/OptimisticModule.sol)
+
+### Building Your Own Modules
+
+The modules above are just starting points. You can build:
+
+- **Quadratic Voting Module:** Weigh votes by the square root of token balance to mitigate whale dominance.
+- **Ranked-Choice Module:** Allow voters to rank preferences and determine winners via instant-runoff.
+- **Privacy-Preserving Module:** Integrate zero-knowledge proofs to keep votes confidential, yet verifiable.
+
+As long as you follow the `VotingModule` interface, the sky’s the limit. Design new rules, encode custom parameters, and shape governance in new and custom ways. The governor contract’s flexibility ensures your creations slot in with the existing governance primitives
+
+<Note>
+  Note! Contracts require front-end apps to be interacted with unless you want a
+  command line DAO. If you are building a module, you will need to build an
+  interface to support it. Better module support is coming in 2025, see below,
+  but until then, please contact us and we can discuss how to build your module
+  into Agora for your community.
+</Note>
+
+<Tip>
+  Want to build a module? Visit Agora’s Module Bounty and earn RetroPGF from
+  Agora when you build and deploy a module to our store! Sign up here for our
+  developer program and start contributing to onchain governance.
+</Tip>
+
+## Current State & Future Roadmap
+
+Agora isn't a static solution; it's an evolving framework built to stay ahead of emerging governance trends.
+
+- **Agora Governor v1.0:** Launched with core governance features—proposals, voting, execution.
+- **Agora Governor v1.0.1 (Current):** Minor Bug fixes and better ProposalType support with detailed scopes.
+- **Agora Governor v1.0.2 (Jan 2024) :** Minor bug fixes and better ProposalType validator
+
+### Looking Ahead: Agora Governor 2.0
+
+The future of Agora is all about modularity, interoperability, and scale:
+
+- **Expandable Voting Modules:** Introduce complex, domain-specific voting mechanisms or integrate zero-knowledge proofs for private voting.
+- **Advanced Permissioning:** Fine-tune access control and delegate authority with greater precision, empowering sub-communities or specialized committees.
+- **Cross-Chain Governance:** Govern across multiple networks seamlessly, enabling DAOs to thrive in an increasingly interconnected ecosystem.

@@ -1,0 +1,33 @@
+---
+title: Glossary
+description: "Learn the crypto governance jargon, look smarter in meetings."
+---
+
+## Aproval threshold
+The percentage of votes that a proposal needs to succeed and execute the proposal's [proposed transactions](#proposed-transactions). A standard proposal using the [Bravo](#bravo) (for/against/abstain) counting method has an approval threshold of 51% mirroring to common sense democracies in the real world.
+
+## Bravo 
+Bravo is the codename used for the default voting module in the Agora Governor. It allows delegates to vote For/Against/Abstain.
+
+The word comes from the Compound Bravo governor which popularized this voting mechanism.
+
+## Delegate
+The name given to an address on a blockchain that holds [voting power](#voting-power). Delegates vote on [proposals](#proposals) and can delegate their voting power to others.
+
+## Proposals
+Onchain proposals are an object created in the storage of the governor smart contract that contain: 
+* a description
+* a proposal type
+* a list of [proposed transactions](#proposed-transactions)
+Proposals are the objects that move the governance of the protocol forward. 
+
+Think of them as bills, or laws in a typical democractic system. 
+
+## Proposal threshold
+The [voting power](#voting-power) needed to create a proposal and send it to the governance system for a vote.
+
+## Proposed transactions
+Onchain [proposals](#proposals) can have one or many blockchain transactions attached to them that will be executed once the proposal succeeds and moves through the delay period of the proposal lifecyclye. The power of these transactions is that if the proposal passes, and is not cancelled during the queue period, the transactions attached are sent to the chain for execution. This allows for true automated actions and automated governance.
+
+## Voting power
+The specific number of votes a crypto wallet has at a given block. In the standard [Agora Governor](/agora-governor) the voting power of an address is determined at the block the proposal was created + the voting delay. 

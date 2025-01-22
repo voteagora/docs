@@ -1,0 +1,48 @@
+---
+title: Security
+description: "Agora's commitment to security"
+---
+
+Our philosophy is simple: prioritize security at every layer. From the transparency of our open-source code to carefully controlled voting strategies, our governance operating system is designed to safeguard against both technical exploits and social engineering attacks.
+
+## Open Source Code
+
+We believe that transparency is a cornerstone of security. All core contracts, modules, and upgradeable extensions are fully open source. This allows the broader community—developers, auditors, and security researchers—to examine, test, and validate the integrity of our code.
+
+Open source development also fosters a rich ecosystem of contributors and peer reviewers, ensuring that bugs and vulnerabilities are more likely to be discovered and addressed quickly.
+
+[Source code for Agora Core →](https://github.com/agoraxyz/core)  
+[Source code for Agora Governor →](https://github.com/agoraxyz/governor)
+
+## Scoped Voting Outcomes
+
+Agora's scoped voting strategies ensure that critical proposals require higher quorums and approval thresholds. By enforcing targeted rules for different proposal types, destructive or high-stakes actions (like treasury withdrawals or protocol upgrades) can be set to automatically demand broader community consensus. These safeguards help contain potential damage if a malicious proposal slips through initial review.
+
+## Veto Mechanisms and Admin Roles
+
+### Governor Admin
+
+A designated admin can cancel or veto proposals under specific circumstances. This role can be reassigned or removed through governance itself, providing a failsafe without permanently centralizing control.
+
+### Timelock
+
+We encourage protocols to use a timelock controller that enforces a waiting period between proposal approval and execution. During this period, the community and stakeholders have time to react and prevent rushed or malicious actions.
+
+## Thoughtful Quorum and Approval Thresholds
+
+Ensuring that enough voting power supports a proposal is critical for legitimacy and security. Agora's default settings are designed to strike a balance: neither too low (vulnerable to rapid or under-the-radar approvals) nor too high (prone to governance gridlock). However, each DAO can—and should—tune these parameters over time to match the evolving size and maturity of its community.
+
+## Contract Audits
+
+We partner with industry-leading security firms to conduct thorough audits of our smart contracts and infrastructure. Regular security assessments are a critical part of our commitment to maintaining the highest security standards. Each audit undergoes rigorous review and all findings are addressed before deployment.
+
+| Date          | Content             | Auditor       | Report                                                            |
+| ------------- | ------------------- | ------------- | ----------------------------------------------------------------- |
+| March 2024    | Core v2.0 Contracts | ChainSecurity | [View Report →](https://github.com/agoraxyz/audits/core-v2)       |
+| January 2024  | Governor Module     | Trail of Bits | [View Report →](https://github.com/agoraxyz/audits/governor-2024) |
+| November 2023 | Voting Strategies   | Certora       | [View Report →](https://github.com/agoraxyz/audits/voting-2023)   |
+| August 2023   | Core v1.5 Contracts | Code4rena     | [View Report →](https://github.com/agoraxyz/audits/core-v1.5)     |
+
+## Bug Bounty Program
+
+Coming soon!

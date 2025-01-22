@@ -1,0 +1,271 @@
+---
+title: Crypto Governance 101
+description: "Lean how Agora can help you build and run your crypto governance projects."
+---
+
+<img
+  className="block dark:hidden"
+  src="/images/agora-treehouse.png"
+  alt="Hero Light"
+/>
+
+## Introduction
+
+Governance is the cornerstone of healthy, self-sustaining communities. As protocols mature, they must address the complexities of growth, evolution, and security—all without sacrificing the values of transparency and decentralization. Onchain governance systems allow you to maximize both dimensions of transparency and decentralization by giving your members a way to vote directly, delegate their voting power, or elect community members to vote on their behalf.
+
+Choosing a great governance software is a crucial step in making sure your protocol outlives you.
+
+## What is Crypto Governance?
+
+Crypto governance, or onchain governance is the software, contracts and protocols that dictate how communities coordinate, propose, and implement changes. At the core, these contracts live onchain to enable:
+
+- **Decentralization:** Decisions flow from the community, not a centralized authority.
+- **Transparency:** Every proposal, vote, and action is publicly verifiable, reducing the risk of hidden agendas or conflicts of interest.
+- **Security:** Trustless execution and immutable record-keeping harden decision-making against manipulation and censorship.
+
+Through onchain governance, DAOs and protocols manage complex coordination tasks at scale, including but not limited to:
+
+- Parameter calibration (interest rates, liquidity thresholds, governance parameters etc.)
+- Smart contract upgrades and migrations
+- Treasury allocations and budget approvals
+- Community grants, research funding, and ecosystem growth initiatives
+
+Agora builds on these foundational principles, delivering a versatile, future-proof governance infrastructure that is both developer-friendly and community-centric.
+
+## Governing the System
+
+Crypto Governance is powered by a set of smart contracts that enable secure, transparent community decision-making. These contracts together are referred to as the Governor.
+
+### The Governor
+
+Governor contracts are responsible for:
+
+- **Proposal Creation:** Community members can suggest improvements, parameter changes, or new initiatives
+- **Voting & Delegation:** Token holders can either:
+  - Vote directly on proposals
+  - Delegate their voting power to trusted community members
+- **Execution & Management:** Approved proposals are automatically queued and executed through secure timelock mechanisms
+
+- **Access Control:** Configurable permissions ensure only eligible participants can create and vote on proposals
+- **Security Measures:** Built-in protections against both technical exploits and social attacks
+- **Transparency:** All actions are recorded on-chain and publicly verifiable
+- **Flexibility:** Customizable voting parameters and proposal types to match your community's needs
+
+<Note>
+  The governance system can start with tight controls and gradually transition
+  to more permissionless governance as your community matures. See the [choose
+  your own adventure](#chose-your-own-adventure) section for more details.
+</Note>
+
+
+[**View the Full Agora Governor Documentation**](#) for detailed explanations, code references, and best practices.
+
+## Chosing a Token
+
+So far, we have seen that the Agora Governance Operating System has a powerful set of tools to make sure you can run flexible, secure and resilient governance process. But how do you actual govern it?
+
+The two most common ways protocols are governed are using tokens. These tokens then represent a given number of votes. Traditional crypto governance is **one token, one vote.** So that means the more tokens, the more votes. However, it is also common to make an NFT (ERC-721) your governance token. Given that NFTs typically have less supply, this could lead to a more deliberate governance system with a smaller number of delegates or token holders that can participate. These are all choices to be made as you setup your governance system
+
+<Note>
+**What's a token?**
+
+A token is smart contract that implements standard interfaces that acts as currency or store of value. The two most popular token standard interfaces in the crypto community and specifically on the EVM is the [ERC-20](https://ethereum.org/en/developers/docs/standards/tokens/erc-20/) and [ERC-721](https://eips.ethereum.org/EIPS/eip-721) (NFT) token contracts.
+
+We will go over the details that are important to governance below, but for a more indepth understanding of these tokens, their wallet support etc, please refer to the official standards above.
+
+</Note>
+
+### ERC20 Token Governance
+
+**Leveraging Industry Standards for Flexible, Accountable Governance**
+
+At its core, ERC20 is a versatile token standard that defines how tokens are transferred and how balances are recorded. When combined with governance extensions like **ERC20Votes**, it becomes a powerful vehicle for enabling participation and representation in decentralized decision-making. Instead of requiring every token holder to vote directly, ERC-20 delegation empowers them to entrust their voting power to representatives who can engage more deeply on their behalf.
+
+- **Separation of Ownership and Voting Power:**
+  With ERC20 delegation, token ownership and voting authority don't have to reside in the same address. A user can still hold their tokens securely while delegating their voting power to a more active participant, ensuring the community's collective decision-making remains vibrant and well-informed.
+- **Dynamic and Reversible Representation:**
+  Delegation is not a permanent action. Token holders remain in full control—able to change or revoke their delegation at any time. If a delegate's voting behavior no longer aligns with a token holder's interests, the voting authority can be seamlessly reassigned to another representative or reclaimed entirely.
+- **Voting Power Snapshots**
+  ERC20Votes integrates snapshot capabilities, ensuring that voting power is calculated based on token balances at specific historical blocks. This prevents sudden changes in token distribution from skewing outcomes mid-vote and guarantees a fair and stable voting process.
+  {" "}
+  <Note>
+    The default for `AgoraGovernor` is to use voting power at the snapshot of
+    the block when the proposal is created. That way, if delegation or someone
+    buys a bunch of tokens to inluence a specific vote, they won't be able to do
+    it for that proposal and will have to wait for the next one
+  </Note>
+- **Compatibility with Agora and Custom Modules**
+  Within the Agora framework, ERC20 delegation working seamlessly with proposal types and voting modules you've configured. Whether you use standard majority voting, approval-style multi-choice voting, or optimistic governance, delegation works seamlessly with all modules, thresholds, and rules set through the `ProposalTypesConfigurator`.
+- **Scaling and Community Building:**
+  As your community and protocol scale, delegation helps maintain governance efficiency. By concentrating voting power in the hands of trusted delegates—who might be domain experts, active community members, or specialized committees—ERC-20 delegation reduces voter fatigue, promotes informed discourse, and ensures the protocol's governance can handle increased complexity over time.
+
+**Further Reading:**
+
+For more technical details, best practices, and implementation examples, refer to the [OpenZeppelin ERC-20 Documentation](https://docs.openzeppelin.com/contracts/4.x/erc20). Their guidance, patterns, and security considerations provide a solid foundation, ensuring that your delegation and governance mechanics rest on a well-tested and industry-recognized standard.
+
+### ERC20 Token Governance with Partial Delegation
+
+**Empowering Flexible, Granular Governance in Decentralized Systems**
+
+<aside>
+⚠️
+
+The `ERC20VotesPartialDelegationUpgradeable` contract is Agora's answer to what the future of onchain token governance looks like it. This contract was written by Agora and audited by OpenZeppelin. If you have not launched your token yet, and are looking for a token to use to govern your protocol, give this one a strong look.
+
+We do recommend that this token only be deployed on an L2 for gas reasons.
+
+</aside>
+
+The `ERC20VotesPartialDelegationUpgradeable` contract extends the widely used ERC20 standard, integrating powerful governance capabilities with a focus on flexibility and user autonomy. By enabling partial delegation, this token supports nuanced voting mechanisms that cater to diverse governance needs.
+
+- **Partial Delegation for Precision Representation:**
+  Unlike standard delegation, which transfers all voting power to a single delegate, partial delegation allows token holders to assign specific portions of their voting power to different representatives. This enables token holders to distribute influence across delegates based on expertise or trust, fostering more informed and effective decision making.
+- **Historical Vote Power via Checkpoints:**
+  Built on OpenZeppelin's checkpointing system, the contract tracks voting power at specific historical blocks. This ensures integrity in governance by preventing last-minute token movements from distorting outcomes and provides a transparent and auditable governance process.
+- **Dynamic and Flexible Delegation:**
+  Delegators can modify or revoke their delegations at any time, retaining full control over their governance participation. This adaptability allows for responsive shifts in representation, ensuring alignment with evolving community needs and priorities.
+- **Votable Supply Calculations for Dynamic Quorums:**
+  The contract provides builtin methods to calculate the votable supply, taking into account delegations, snapshots, and other governance specific constraints. These helper methods make it straightforward to configure dynamic quorums in AgoraGovernor, ensuring that quorum thresholds adapt automatically to changes in token distribution or governance requirements.
+- **Seamless Integration with Agora Governance:**
+  The contract integrates seamlessly with Agora's modular governance framework, supporting diverse proposal types and voting rules. With `ProposalTypesConfigurator`, you can leverage dynamic quorum settings enabled by votable supply calculations to tailor governance to your protocol's unique needs.
+- **Delegate-On-Behalf Functionality:**
+  The addition of `delegatePartiallyOnBehalf` extends usability, allowing token holders to delegate portions of their voting power programmatically or through third-party applications. This facilitates automation and integration with external governance platforms.
+- **Scaling Governance for Complex Communities:**
+  As communities grow, governance systems must scale efficiently. By concentrating voting power among knowledgeable delegates while allowing granular participation through partial delegation, the `ERC20VotesPartialDelegationUpgradeable` token reduces voter fatigue and fosters expert-driven governance without compromising inclusivity.
+
+**Technical Foundations and Best Practices**
+
+For implementation details, refer to the [OpenZeppelin Checkpoints Documentation](https://docs.openzeppelin.com/contracts/5.x/api/utils#Checkpoints) and review the full source code for the [`ERC20VotesPartialDelegationUpgradeable`](https://github.com/voteagora/ERC20VotesPartialDelegationUpgradeable) contract. These resources provide essential guidance on best practices, security considerations, and integration patterns.
+
+### NFT Voting Section
+
+## Launch Your Token
+
+Launching a token is core step in establishing your community's crypto governance system. Beyond simply minting assets, thoughtful token design, tokenomics and distribution shape the dynamics of governance participation, delegation, and decision-making. Agora's Launch offering streamlines the token creation process—ensuring compliance, flexibility, and seamless integration with the Agora governance operating system.
+
+[Agora Launch](https://www.notion.so/Introducing-Agora-Launch-15b528b28fc480b29461f5b444d936fe?pvs=21) is a suite of products that Agora offers to give you the flexibiltiy you need when launching your token.
+
+Once your token is live and there is a circulating supply, users can delegate, vote, and create proposals that will shape your community.
+
+<Note>
+  Crypto has a polarizing reputation due to bad token launches. Note that
+  governance can help you build a great community but it is not related to your
+  token price, or the dynamics of your token economics. These dynamics are
+  rightfully called: tokenomics. Agora has partnered with some of the top and
+  reputable tokenomics experts in the business. Learn more by explore our
+  services partners here: [Service Partners](https://agora.xyz/partners)
+</Note>
+
+## Interacting with your Governor
+
+Now, you understand your contracts and tokens you are probably wondering how users actually use your application and interact with the contracts. Given that these are smart contracts, once deployed there is nothing stopping anyone from interacting with these contracts but, we want to give them an incredible experience and with that in mind, we built Agora Core.
+
+Agora Core lets you:
+
+- **Manage your Governor**: Manage key governor settings with a nice and friendly UI
+- **Manage the proposal lifecycle**: Create, sponsor, queue, and execute proposals in just a few clicks.
+- **Delegate & Vote**: Delegate or revoke voting power, cast votes, view vote results—all from one interface.
+- **Customizable Look & Feel**: Theming options (including dark mode) and easy-to-modify CSS let you align with your DAO's branding.
+
+Learn more about [Agora Core](/agora-core) and how it can serve your community.
+
+## Security
+
+Our philosophy is simple: **prioritize security at every layer**. From the transparency of our open-source code to carefully controlled voting strategies, our governance operating system is designed to safeguard against both technical exploits and social engineering attacks.
+
+Learn more about [Agora Security](/security).
+
+<Warning>
+  {" "}
+  Any changes that you and your team make **must be audited**. Even if you believe
+  you know what you are doing, or you are making a small change. It's important for
+  your safety and the safety of your community that you get all of your code audited.
+</Warning>
+
+## Chose your own adventure
+
+Every protocol's journey toward full permissionless, trustless governance is unique. While the end goal may be a fully self-sustaining, onchain community, it often makes sense to start from a more controlled environment and gradually open up. Here is an example path many of customers take:
+
+**Tight Control to Start**
+
+Begin with a highly restrictive configuration—set a high proposal threshold or require proposals to originate from a designated manager role. This allows you to stabilize your protocol, refine decision-making processes, and ensure that only vetted changes make it onchain in the early stages.
+
+**Incremental Opening of Access**
+
+As the community grows more confident and established, you can use Agora's governance proposals to systematically lower thresholds or grant proposal rights to more community members. Over time, hand off decision-making power from a small, trusted core to a broader, more diverse set of participants.
+
+**Progressive Onchain Expansion**
+
+Start with small, low-risk onchain actions—like updating parameters or distributing small grants—to build trust and ensure the governance framework works as intended. As operations mature, bring more substantial treasury funds, infrastructure upgrades, and critical parameters onchain, gradually increasing the community's direct influence.
+
+**Guided by Runbooks and Best Practices:**
+
+Throughout this gradual transition, Agora's Runbooks and advisory services help your community navigate key milestones. Whether it's choosing the right moment to lower proposal thresholds, formalizing a security council, or scaling treasury management, you'll have access to proven strategies and recommended steps.
+
+<Note>
+  Not all Agora plans come with full runbooks and 1:1 consulting. If you are
+  unsure let us know and we can direct you to the right package.
+</Note>
+
+## Your First Proposal
+
+Creating your first governance proposal is a significant milestone for your crypto community, here are some best practices when thinking about to approach it effectively:
+
+### Types of First Proposals
+
+Common first proposals that help establish governance include:
+
+- **Parameter Updates:** Start with low-risk changes like adjusting voting periods or proposal thresholds
+- **Treasury Setup:** Establish basic treasury management rules and initial allocations
+- **Delegate Programs:** Create frameworks for delegate responsibilities and expectations
+- **Community Guidelines:** Formalize proposal standards and discussion processes
+
+### Best Practices
+
+- **Start Simple:** Choose a straightforward proposal that's easy to understand and implement
+- **Build Consensus:** Discuss the proposal in community forums before formal submission
+- **Document Clearly:** Include:
+  - Clear objectives
+  - Implementation details
+  - Expected outcomes
+  - Risk assessment
+  - Timeline for execution
+
+<Note>
+  Remember that your first proposal sets a precedent for future governance
+  actions. Take time to get it right and use it as a learning opportunity for
+  the community.
+</Note>
+
+# Not sure how to get started?
+
+Setting up governance for your protocol is a significant undertaking, but you don't have to figure it out by yourself. Agora is here to help you succeed.
+
+- **Expert Guidance:** Our team has helped launch and maintain governance for some of the largest protocols in the space
+- **Battle-tested Tools:** Use the same infrastructure trusted by leading DAOs and DeFi protocols such as Optimism, Scroll, Derive, Uniswap*, ENS* and many more.
+- **Flexible Support Options:**
+  - **Standard:** Technical support and governance templates
+  - **Pro:** Dedicated support and custom governance design
+  - **Enterprise:** Full-service governance implementation and ongoing consultation
+
+### Resources
+
+- Join our [Discord](https://discord.gg/agora) to connect with other builders
+- Continue browsing our [documentation](https://docs.agora.xyz) for more detailed examples and code samples
+
+Whether you're just starting out or ready to scale, we have the tools and expertise to help your protocol succeed. Let's build sustainable governance together.
+
+<Card
+  title="Book your free consultation"
+  icon="mobile"
+  href="https://www.agora.xyz/deploy?utm_source=getting_started_cta&utm_medium=referral&utm_campaign=docs1"
+>
+  Talk to one of our governance experts to see how Agora can help you organize
+  and govern your community in a secure, flexible and powerful way.
+</Card>
+
+---
+
+<div className="text-sm text-gray-500 mt-8">
+  \* These customers are using Agora Core and not Agora Governor
+</div>
