@@ -7,11 +7,11 @@
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
+    "primary": "#000000",
     "light": "#07C983",
-    "dark": "#0D9373",
+    "dark": "#000000",
     "anchors": {
-      "from": "#0D9373",
+      "from": "#000000",
       "to": "#07C983"
     }
   },
@@ -26,7 +26,7 @@
       "url": "api-reference"
     },
     {
-      "name": "Crypto Governance",
+      "name": "Glossary",
       "url": "crypto-governance"
     }
   ],
@@ -34,14 +34,11 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": [
-        "crypto-governance-101",
-        "agora-governor",
-        "agora-core",
-        "launch",
-        "security",
-        "quickstart"
-      ]
+      "pages": ["crypto-governance-101", "security", "quickstart"]
+    },
+    {
+      "group": "Products",
+      "pages": ["agora-governor", "agora-core", "launch"]
     },
     {
       "group": "API Documentation",
