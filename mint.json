@@ -34,7 +34,12 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["crypto-governance-101", "security", "quickstart"]
+      "pages": [
+        "crypto-governance-101",
+        "security",
+        "quickstart",
+        "governance-guides"
+      ]
     },
     {
       "group": "Products",
