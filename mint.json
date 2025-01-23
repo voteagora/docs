@@ -3,7 +3,8 @@
   "name": "Agora",
   "logo": {
     "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "light": "/logo/light.svg",
+    "href": "https://agora.xyz"
   },
   "favicon": "/favicon.svg",
   "colors": {
@@ -18,7 +19,7 @@
   "topbarLinks": [],
   "topbarCtaButton": {
     "name": "Get Started",
-    "url": "https://agora.xyz"
+    "url": "https://agora.xyz/deploy?utm_source=header_button_cta&utm_medium=referral&utm_campaign=docs1"
   },
   "tabs": [
     {
