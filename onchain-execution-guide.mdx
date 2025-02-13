@@ -1,0 +1,78 @@
+---
+title: Security Best Practices for Onchain Execution
+description: A checklist for securing onchain execution in the Agora Governance system
+---
+
+Moving assets into onchain governance is a major step toward decentralization, but it also introduces new security challenges. Poorly secured governance systems can be exploited by malicious actors, putting treasury funds and protocol integrity at risk. This guide outlines the best practices for ensuring a secure and resilient transition to onchain execution.
+
+## Key Security Practices
+
+### Review Governance Roles
+
+Before moving assets onchain, ensure that all governance roles are structured with security in mind:
+
+- **Multisigs for Admin and Manager Roles:** Use multi-signature wallets (e.g., Gnosis Safe) for high-privilege roles, ensuring no single actor has unilateral control.
+- **Separation of Powers:** Avoid assigning excessive privileges to a single address. Distinct roles should be responsible for proposal creation, execution, and administrative overrides.
+- **Use Hardware Wallets:** Ensure that key signers use hardware wallets such as Ledger, Trezor, or Keystone to protect against phishing attacks and key compromise. Hardware wallets provide an extra layer of security by keeping private keys offline and requiring physical confirmation for transactions.
+
+### Establish a Security Council
+
+A Security Council is a multisig-controlled entity responsible for vetoing or mitigating malicious proposals. Consider the following:
+
+- **Emergency Veto Mechanism:** Enable a security council to cancel proposals before execution in case of detected exploits.
+- **Transparent Membership:** Council members should be publicly known and held accountable.
+- **Limited Authority:** The council should have the power to cancel proposals, but not create new ones, ensuring it cannot override governance itself.
+
+### Walk Before You Run
+
+Transitioning to onchain execution should be gradual:
+
+- **Start with Test Transactions:** Move a small, non-critical amount of tokens through the governance process to verify security assumptions.
+- **Progressive Fund Transfers:** Instead of moving an entire treasury onchain at once, incrementally increase exposure as confidence in the system grows.
+- **Community Awareness:** Ensure stakeholders understand the risks and operational flow of onchain execution before significant funds are involved.
+
+### Implement Transaction Monitoring
+
+Use onchain monitoring tools like [OpenZeppelin Defender](https://www.openzeppelin.com/defender) to track transactions in real time as they move through the proposal lifecycle process:
+
+- **Automated Alerts:** Set up notifications for queued and executed transactions.
+- **Historical Logs:** Maintain a transparent and verifiable record of all governance actions.
+- **Anomaly Detection:** Flag unusual patterns, such as unexpectedly large transfers or irregular proposal execution times.
+
+### In-house or additional contract audits
+
+Even though Agora's governance contracts are audited by reputable firms, it's a good idea to have your own team review the contracts to ensure they are secure and compliant with your protocol's security standards.
+
+- **Engage Reputable Auditors:** Use firms with a track record in governance security, such as [OpenZeppelin](https://www.openzeppelin.com/security-audits), [Trail of Bits](https://www.trailofbits.com/), or [Sigma Prime](https://www.sigmaprime.io/).
+- **Internal Review:** Your engineering team should review and deeply understand the governance contracts, even if externally audited.
+
+### Create Runbooks for Crisis Response
+
+Governance security is not just about prevention—it’s also about response. Prepare **runbooks** that outline steps for addressing:
+
+- **Malicious Proposals:** Step-by-step guide for emergency vetoes.
+- **Governance Attacks:** Processes for escalating incidents to security teams and stakeholders.
+- **Contract Exploits:** Protocol for deploying emergency patches or rolling back transactions where feasible.
+
+### Communicate the Transition Plan
+
+Governance is as much about community trust as it is about security. A poorly communicated transition can lead to panic or misinformation. Ensure that you:
+
+- **Announce Plans Clearly:** Use Discord, Discourse, or governance forums to explain the transition timeline and security precautions.
+- **Set Expectations:** Detail how voting and execution will work, and what safeguards are in place.
+- **Provide Ongoing Updates:** Governance security is an ongoing process—keep the community informed of audits, incident reports, and improvements.
+
+## Conclusion
+
+Transitioning to onchain execution is a powerful step toward decentralization, but it requires a robust security strategy. By implementing these best practices, projects can safeguard their treasuries, prevent malicious takeovers, and build trust in their governance processes.
+
+Agora is committed to helping protocols navigate the complexities of onchain governance. Reach out to us for audits, implementation support, and best-in-class governance tooling.
+
+<Card
+  title="Book a Security Consultation"
+  icon="shield"
+  href="https://www.agora.xyz/"
+>
+  Ensure your onchain governance is secure before executing high-value transactions.
+</Card>
+
