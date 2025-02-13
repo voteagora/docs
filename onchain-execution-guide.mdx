@@ -5,9 +5,7 @@ description: A checklist for securing onchain execution in the Agora Governance 
 
 Moving assets into onchain governance is a major step toward decentralization, but it also introduces new security challenges. Poorly secured governance systems can be exploited by malicious actors, putting treasury funds and protocol integrity at risk. This guide outlines the best practices for ensuring a secure and resilient transition to onchain execution.
 
-## Key Security Practices
-
-### Review Governance Roles
+## Review Governance Roles
 
 Before moving assets onchain, ensure that all governance roles are structured with security in mind:
 
@@ -15,58 +13,85 @@ Before moving assets onchain, ensure that all governance roles are structured wi
 - **Separation of Powers:** Avoid assigning excessive privileges to a single address. Distinct roles should be responsible for proposal creation, execution, and administrative overrides.
 - **Use Hardware Wallets:** Ensure that key signers use hardware wallets such as Ledger, Trezor, or Keystone to protect against phishing attacks and key compromise. Hardware wallets provide an extra layer of security by keeping private keys offline and requiring physical confirmation for transactions.
 
-### Establish a Security Council
+## Establish a Security Council
 
-A Security Council is a multisig-controlled entity responsible for vetoing or mitigating malicious proposals. Consider the following:
+Establishing a Security Council for onchain governance is about creating a robust safety valve that protects the system without undermining its decentralized nature. Here’s how we recommends approaching it:
 
-- **Emergency Veto Mechanism:** Enable a security council to cancel proposals before execution in case of detected exploits.
-- **Transparent Membership:** Council members should be publicly known and held accountable.
-- **Limited Authority:** The council should have the power to cancel proposals, but not create new ones, ensuring it cannot override governance itself.
+**Build an Emergency Veto Mechanism:**
+The council functions as a rapid-response team against malicious or exploitative proposals. By incorporating automated triggers that flag unusual or high-risk proposals alongside manual overrides, you can ensure that any red flags can be addressed immediately. All of Agora's standard governance contracts include a timelock to ensure that there is a delay between proposal creation and execution, but having the right people in the council can help you respond to unexpected events with confidence.
 
-### Walk Before You Run
+**Make it Transparent:**
+Trust begins with clear accountability. Every council member should have a verifiable onchain identity, ensuring that responsibilities are visible to the entire community. Regular rotation or term limits can further prevent power from consolidating, keeping fresh perspectives in the mix. By making all actions and decisions public, we create an environment where accountability is the norm, and the community can directly see how security measures are being upheld. Running elections for the council is a good way to ensure that the council is representative of the community. No matter how you choose to select your council members, make sure to make the process transparent and verifiable using onchain governance proposals via Agora, using Discourse, or a similar forum.
 
-Transitioning to onchain execution should be gradual:
+**Limited Authority:**
+While the council is empowered to veto harmful proposals, its role must be strictly defined to prevent it from becoming a centralized policymaker.
 
-- **Start with Test Transactions:** Move a small, non-critical amount of tokens through the governance process to verify security assumptions.
-- **Progressive Fund Transfers:** Instead of moving an entire treasury onchain at once, incrementally increase exposure as confidence in the system grows.
-- **Community Awareness:** Ensure stakeholders understand the risks and operational flow of onchain execution before significant funds are involved.
+**Integrating Checks and Balances:**
+To maintain the integrity of the governance system, decisions made by the council must be subject to independent oversight. Implementing post-veto audits allows us to assess the justification of each intervention, while community appeal mechanisms give stakeholders a way to contest decisions that seem out of line with broader interests. An immutable, public log of veto actions and their reasons not only builds transparency but also serves as a learning tool to continuously refine and improve our governance protocols.
 
-### Implement Transaction Monitoring
+**Who should be in the Security Council?**: The Security Council should be a group of trusted individuals who are responsible for the security of the protocol. They should be diverse and represent different parts of the community. They should be able to make decisions quickly and efficiently. They should be able to communicate with the community and the team. They should be able to make decisions that are in the best interest of the protocol.
 
-Use onchain monitoring tools like [OpenZeppelin Defender](https://www.openzeppelin.com/defender) to track transactions in real time as they move through the proposal lifecycle process:
+Together, these measures create a balanced security mechanism that empowers the community while providing essential safeguards. If you don't have a Security Council, we recommend you start with a small group of trusted individuals and iterate from there.
 
-- **Automated Alerts:** Set up notifications for queued and executed transactions.
-- **Historical Logs:** Maintain a transparent and verifiable record of all governance actions.
-- **Anomaly Detection:** Flag unusual patterns, such as unexpectedly large transfers or irregular proposal execution times.
+## Walk Before You Run
 
-### In-house or additional contract audits
+Transitioning to onchain execution should be a deliberate, measured process that prioritizes both security and confidence. We take a cautious approach by emphasizing thorough testing, incremental exposure, and clear communication with all stakeholders to build and maintain trust:
 
-Even though Agora's governance contracts are audited by reputable firms, it's a good idea to have your own team review the contracts to ensure they are secure and compliant with your protocol's security standards.
+**Start with Test Transactions:**
+Before committing significant assets, we begin with small, non-critical token movements through the governance process. These initial test transactions serve as a practical validation of our security assumptions and most importantly, build trust with the community and allow you and your team to iterate on the process before committing more significant resources.
 
-- **Engage Reputable Auditors:** Use firms with a track record in governance security, such as [OpenZeppelin](https://www.openzeppelin.com/security-audits), [Trail of Bits](https://www.trailofbits.com/), or [Sigma Prime](https://www.sigmaprime.io/).
-- **Internal Review:** Your engineering team should review and deeply understand the governance contracts, even if externally audited.
+**Progressive Fund Transfers:**
+Rather than transferring the entire treasury into the timelock in one go, we advocate for a gradual increase in exposure. By moving funds incrementally, we create checkpoints that allow us to assess the stability and security of the process at each stage. This step-by-step strategy minimizes risk and provides the flexibility to pause or adjust the transition if any anomalies or vulnerabilities are detected.
 
-### Create Runbooks for Crisis Response
+**Community Awareness:**
+Ensuring that delegates, token holders, investors, the community, and your team understand the process is key to building trust. We recommend investing in clear, comprehensive communication that explains the risks, benefits, and operational details of onchain execution. By keeping the community informed and engaged, we foster a collaborative environment where feedback is encouraged, and everyone has a clear picture of how the transition is unfolding. This transparency not only builds confidence but also equips the community to actively participate in the evolution of our governance framework.
 
-Governance security is not just about prevention—it’s also about response. Prepare **runbooks** that outline steps for addressing:
+This measured approach not only safeguards assets but also reinforces our commitment to a transparent, community-driven process that evolves with both caution and innovation and most importantly, builds trust with the community and gives your team the confidence to move forward.
 
-- **Malicious Proposals:** Step-by-step guide for emergency vetoes.
-- **Governance Attacks:** Processes for escalating incidents to security teams and stakeholders.
-- **Contract Exploits:** Protocol for deploying emergency patches or rolling back transactions where feasible.
+## Implement Transaction Monitoring
 
-### Communicate the Transition Plan
+Implementing robust transaction monitoring is critical to maintaining transparency and security in onchain governance. By leveraging tools like [OpenZeppelin Defender](https://www.openzeppelin.com/defender), we can track transactions in real time as they progress through the proposal lifecycle, ensuring every step is both visible and verifiable.
+
+**Automated Alerts:**
+Automated alerts serve to notify you and your security team immediately when transactions are queued or executed. This real-time feedback allows for swift action in response to any strangeness, reducing the window for potential issues. Quick notifications ensure that any deviation from expected behavior is addressed before it can impact the system significantly.
+
+**Anomaly Detection:**
+Advanced anomaly detection mechanisms enable you to flag unusual patterns such as unexpectedly large transfers or irregular proposal execution times. By catching these outliers early, we can investigate and mitigate potential vulnerabilities before they escalate. This proactive approach adds an extra layer of security, ensuring that any deviation from normal operations is promptly scrutinized and resolved.
+
+Agora will be monitoring all transactions in real time and will alert you and your security team if any anomalies are detected, but it's a good idea to have your own team to setup and review the transactions as well. When it comes to monitoring and securing onchain transactions, the more eyes the better.
+
+## In-house or additional contract audits
+
+Even though Agora's governance contracts have been audited by leading firms, engaging additional auditors can offer further peace of mind. Leveraging experts such as [OpenZeppelin](https://www.openzeppelin.com/security-audits), [Trail of Bits](https://www.trailofbits.com/), or [Hashlock](https://hashlock.com/) are ones that we've worked with and trust.
+
+**Internal Review:**
+Complementing external audits, your engineering team should conduct thorough internal reviews to ensure familiarity with the governance contracts. This allows you to fully understand the inner workings and potential edge cases that might not surface during external audits. By proactively examining the contracts you empower yourself to quickly address issues and ask questions that you might not have thought of otherwise.
+
+## Crisis Response Protocols
+
+Governance security is not just about prevention, it’s also about response. Prepare runbooks and rehersals that outline steps for addressing:
+
+* **Malicious Proposals:** Step-by-step guide for emergency vetoes.
+
+* **Governance Attacks:** Processes for escalating incidents to security teams and stakeholders.
+
+* **Contract Exploits:** Protocol for deploying emergency patches or rolling back transactions where feasible.
+
+It's hard to give a one size fits all approach to crisis response protocols as each protocol is different and will have different needs. The best practices are to make the process as transparent as possible and to get buy in from your community and security teams. Optimism has set the standard for open and transparent crisis response protocols with their [Superchain Ops](https://github.com/ethereum-optimism/superchain-ops) repo. It's a great resource for getting ideas and best practices for your own crisis response protocols.
+
+## Communicate the Transition Plan
 
 Governance is as much about community trust as it is about security. A poorly communicated transition can lead to panic or misinformation. Ensure that you:
 
-- **Announce Plans Clearly:** Use Discord, Discourse, or governance forums to explain the transition timeline and security precautions.
-- **Set Expectations:** Detail how voting and execution will work, and what safeguards are in place.
-- **Provide Ongoing Updates:** Governance security is an ongoing process—keep the community informed of audits, incident reports, and improvements.
+**Announce Plans Clearly:** Use Discord, Discourse, or governance forums to explain the transition timeline and security precautions.
 
-## Conclusion
+**Set Expectations:** Detail how voting and execution will work, and what safeguards are in place.
 
-Transitioning to onchain execution is a powerful step toward decentralization, but it requires a robust security strategy. By implementing these best practices, projects can safeguard their treasuries, prevent malicious takeovers, and build trust in their governance processes.
+**Provide Ongoing Updates:** Governance security is an ongoing process—keep the community informed of audits, incident reports, and improvements.
 
-Agora is committed to helping protocols navigate the complexities of onchain governance. Reach out to us for audits, implementation support, and best-in-class governance tooling.
+## tldr;
+
+Transitioning to onchain execution is a powerful step toward decentralization, but it requires a robust security strategy. Remember that most security attacks are not done by attacking the protocol but by compromising the people behind the protocol. Investing in your security team and processes will pay off in the long run. By implementing these best practices and even talking through these with your Agora Governance Consultant, you can build a strong foundation for your onchain governance.
 
 <Card
   title="Book a Security Consultation"
