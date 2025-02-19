@@ -1,0 +1,83 @@
+
+
+
+---
+title: Governance Considerations: ERC20 vs. ERC721
+description: "Learn the considerations on how Token standards impact governance and achieves different outcomes."
+---
+
+### Overview
+
+When designing governance systems using Ethereum-based tokens, the choice between ERC20 and ERC721 standards impacts governance structure, usability, and implementation details. This document outlines the key differences between ERC20 and ERC721 tokens in governance, their implications for total and votable supply, and notable examples.
+
+### Key Differences
+
+#### 1. Governance Models
+
+- **ERC20: Token-Based Governance**
+  - Plutocratic model: Voting power is proportional to token holdings.
+  - Analogous to public company shareholder voting: More tokens = more influence.
+- **ERC721: Membership-Based Governance**
+  - Each NFT represents a unique entity with voting rights.
+  - Suitable for guilds or membership-based organizations.
+  - All members often have equal voting weight.
+
+#### 2. Total Supply vs. Votable Supply
+
+- **ERC20 Governance**
+
+  - The **total supply** refers to all tokens ever minted.
+  - The **votable supply** is the subset of tokens that are eligible for governance (e.g., staked, delegated, or active in the system).
+  - Quorum and proposal thresholds are derived from votable supply.
+
+- **ERC721 Governance**
+
+  - The **total supply** and **votable supply** can often be the same (i.e., all NFTs represent active members).
+  - However, in some cases, governance may allow certain NFTs to be non-voting or apply additional rules for votable supply.
+
+#### 3. Smart Contract Differences
+
+- Minimal technical differences from a governance contract perspective.
+- The primary distinction is how governance mechanisms interpret the token supply.
+- Existing governance smart contracts have mostly been built with ERC20 governance in mind and later repurposed for ERC721.
+
+#### 4. User Interface (UI) Considerations
+
+- Most governance UIs were originally designed for ERC20-based governance.
+- ERC721-based governance in platforms like Boost and Protocol Guild often repurpose existing UI elements rather than designing for NFT-based governance from the ground up.
+- Potential improvements in UI could better accommodate the unique aspects of ERC721 governance, such as visualizing membership rather than token holdings.
+
+### Examples of Governance Implementations
+
+#### 1. **ERC20-Based Governance**
+
+- Standard token governance (e.g., DAOs where governance tokens determine voting power).
+- Examples:
+  - [Optimism Token House](https://vote.optimism.io/): Uses OP tokens for governance.
+  - Many DeFi governance models.
+
+#### 2. **ERC721-Based Governance**
+
+- Membership-based governance where each NFT represents one vote.
+- Examples:
+  - **Protocol Guild:** Members qualify based on contributions to Ethereum Layer 1.
+  - **Boost:** Another early example of NFT-based governance.
+
+#### 3. **Hybrid & Bespoke Governance Models**
+
+- **Optimism’s Bicameral Governance:**
+  - Token House (ERC20-based)
+  - Citizen House (Snapshot-based governance)
+- **veToken (Vote Escrowed) Governance:**
+  - Encourages long-term commitment by increasing voting power for users who lock tokens.
+  - Aligns incentives with governance participation.
+
+### Conclusion
+
+The choice between ERC20 and ERC721 for governance depends on the organizational structure and governance goals:
+
+- ERC20 is suited for token-weighted governance models.
+- ERC721 is better for membership-based governance.
+- Hybrid models allow flexibility but require careful implementation and UI considerations.
+
+As governance mechanisms evolve, future iterations of governance UIs and smart contracts may better accommodate the nuances of ERC721 governance.
