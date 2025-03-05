@@ -1,0 +1,30 @@
+---
+title: Multi-token Governance
+description: "How to leverage multiple tokens in your governance system"
+---
+
+Do you have more than one token you're considering using for your governance? Agora is able to support almost any configuration of tokens for governance (with different complexity and cost profiles) to support the appropriate governance strategy for your protocol.
+
+**Start with a single gov token where possible**
+
+Generally, our recommendation is to always start with a single token as your source of voting power for the sake of simplicity. For example, if you have a *token* and staking mechanism that returns a *stToken,* we generally recommend to start with using ONLY your stToken as your source of voting power. Since you generally already want to encourage your users to stake, making the staking token the governance token adds to that incentive.
+
+**Aggregate the voting power of multiple tokens via zk proof**
+
+If you're certain in needing to aggregate the voting power of multiple tokens, then Agora can support your needs with our *multi-token voting module.* This plugin allows us to aggregate the voting power of multiple tokens off-chain via a zk proof (using Succinct's SP1). This module is more powerful but also inherently more complex.
+
+Advantages:
+
+- Supports any number of both ERC20s and NFTs
+- Weight voting power from different tokens differently (for example 1 NFT = 100 units of voting power vs 1 ERC20 = 1 unit of voting power)
+
+Disadvantages:
+
+- Requires custom integration of your token contracts, which is more time consuming and costly
+- More complex for your users to understand and keep track of. Also introduces user experience edge cases.
+
+**Using tokens in different roles**
+
+If you have different tokens that perform different roles, Agora can support systems like this via custom integrations. Example use cases for this kind of system typically include one governance token used for active governance (like LDO) and a protocol-issued asset token (stETH) with veto power over decisions.
+
+Please contact us for custom
