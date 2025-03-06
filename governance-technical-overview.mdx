@@ -54,7 +54,23 @@ This document provides a technical overview of how Agora's governance system wor
 
 ## Proposal Lifecycle
 
-![Governance System Flow](https://prod-files-secure.s3.us-west-2.amazonaws.com/c82d05ff-47d7-48d8-bcf8-39ac135426b8/ed7ebcbc-c993-497f-923c-0e3568ce3108/Untitled.png)
+```mermaid
+graph TD
+    A[Voting cycle begins] --> B[Draft proposal on forum]
+    B --> C[Manager]
+    C[Manager] --> D[Governor Voting]
+    D --> E[Timelock]
+    D --> F[Defeated]
+    E --> G[Token transfers or Governor changes]
+    
+    style A fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style B fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style C fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style D fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style E fill:#f9f9f9,stroke:#333,stroke-width:2px
+    style F fill:#ffeded,stroke:#333,stroke-width:2px
+    style G fill:#f9f9f9,stroke:#333,stroke-width:2px
+```
 
 ### Initial Launch Configuration
 
@@ -72,26 +88,20 @@ At launch, the system is configured for maximum safety and control:
 
 ### Example Proposal Types
 
-#### 1. Token Transfer Proposal
-![Token Transfer Flow](https://prod-files-secure.s3.us-west-2.amazonaws.com/c82d05ff-47d7-48d8-bcf8-39ac135426b8/ed7ebcbc-c993-497f-923c-0e3568ce3108/Untitled.png)
+1. **Token Transfer Proposal**
+   - Fully executed on-chain
+   - Standard governance process
+   - Automated execution through timelock
 
-- Fully executed on-chain
-- Standard governance process
-- Automated execution through timelock
+2. **Normal Protocol Upgrade**
+   - Requires Security Council execution
+   - Manual implementation for safety
+   - Additional verification layer
 
-#### 2. Normal Protocol Upgrade
-![Protocol Upgrade Flow](https://prod-files-secure.s3.us-west-2.amazonaws.com/c82d05ff-47d7-48d8-bcf8-39ac135426b8/37236bae-aa46-40a6-8cf9-4de58e9576d4/Untitled.png)
-
-- Requires Security Council execution
-- Manual implementation for safety
-- Additional verification layer
-
-#### 3. Emergency Protocol Upgrade
-![Emergency Upgrade Flow](https://prod-files-secure.s3.us-west-2.amazonaws.com/c82d05ff-47d7-48d8-bcf8-39ac135426b8/fe7ab18c-69a5-4e9d-bad5-d304b35b0973/Untitled.png)
-
-- Bypasses standard governance process
-- Direct Security Council execution
-- Reserved for critical situations
+3. **Emergency Protocol Upgrade**
+   - Bypasses standard governance process
+   - Direct Security Council execution
+   - Reserved for critical situations
 
 ## Progressive Decentralization
 
