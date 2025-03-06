@@ -1,0 +1,46 @@
+---
+title: 'Voting Types'
+description: 'Understanding the different voting mechanisms in Agora'
+---
+
+# Voting Types
+
+Agora supports multiple voting mechanisms to accommodate different governance needs. Each proposal uses both a **voting type** (how votes are cast) and a **proposal type** (which defines quorum and approval thresholds).
+
+## Core Voting Types
+
+### Basic Voting
+The standard voting mechanism where participants vote "for", "against", or "abstain". A proposal passes when:
+- Total votes (for + abstain) exceed quorum
+- For votes exceed the approval threshold percentage of (for + against) votes
+
+### Approval Voting
+Allows voters to choose among multiple options. The proposal passes if:
+- Quorum is met
+- Options are approved based on predefined approval criteria
+
+### Optimistic Voting
+A social signaling mechanism where proposals automatically pass unless significant opposition emerges:
+- Automatically passes unless 12% vote against
+- Cannot include on-chain transactions
+- Used primarily for social consensus
+
+### Snapshot Integration
+- Fully off-chain voting imported from Snapshot
+- Maintains compatibility with existing Snapshot proposals
+
+## Understanding Proposal Configuration
+
+Each proposal combines:
+1. **Voting Type**: Determines how votes are cast (basic, approval, optimistic)
+2. **Proposal Type**: Sets the quorum and approval threshold requirements
+
+## Key Terms
+
+### Quorum
+The minimum voting weight required for a valid proposal, ensuring sufficient participation. Example: 400,000 OP tokens.
+
+### Approval Threshold
+The percentage of supporting votes needed versus opposing votes. Example: With 50% threshold:
+- Requires (for)/(for + against) > 50%
+- Must also meet quorum requirement
