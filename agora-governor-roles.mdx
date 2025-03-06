@@ -1,0 +1,71 @@
+---
+title: "Governor Roles"
+description: "Understanding the Governor Manager and Admin roles in Agora Governor (v1.0 - v1.2)"
+---
+
+# Governor Roles
+
+This documentation covers the Governor Manager and Admin roles for Agora Governor versions v1.0 through v1.2.
+
+## Role Overview
+
+When deploying an Agora Governor contract, two critical addresses must be defined:
+- Governor Manager
+- Governor Admin
+
+## Governor Manager Role
+
+The Manager role has a focused set of permissions designed for proposal creation.
+
+### Permissions
+The Manager has a single but important capability:
+- Create proposals without meeting the proposal threshold requirement
+
+### Implementation Recommendations
+- Can be an Externally Owned Account (EOA) or a multisig
+- Suitable for active community members or teams responsible for regular proposal creation
+- Should be assigned to trusted entities as they can bypass proposal thresholds
+
+## Governor Admin Role
+
+The Admin role carries significant power, comparable to the timelock contract itself. This role should be handled with extreme care.
+
+### Permissions
+The Admin can bypass the governance process for the following actions:
+
+**Proposal Management**
+- Update deadlines of active proposals
+- Cancel proposals
+- Update proposal types of active proposals
+
+**Governance Parameters**
+- Modify voting delay
+- Adjust voting period
+- Update proposal threshold
+- Create or modify proposal types (including quorum & approval thresholds)
+
+**Role Management**
+- Update the admin address
+- Update the manager address
+
+**Module Control**
+- Enable or disable voting modules (external contracts that can override proposal creation and voting logic)
+
+### Security Recommendations
+Due to the extensive powers of the Admin role:
+- **Strongly recommended** to be implemented as a multisig with a high signature threshold
+- Typically represents the security council
+- Should have strict operational procedures and multiple signers
+
+## Role Management
+
+### Disabling Roles
+Both the Manager and Admin roles can be effectively disabled:
+- Transfer the role to the zero address (`0x0000000000000000000000000000000000000000`)
+- Can be re-enabled through a governance proposal
+- Timelock (governance) retains the ability to restore the roles
+
+### Important Notes
+- The timelock (governance) always maintains access to the same functions as the admin
+- Role changes should be carefully considered and executed
+- Disabling roles provides an additional security option if needed

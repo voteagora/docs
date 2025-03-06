@@ -46,7 +46,14 @@
     },
     {
       "group": "Agora Products",
-      "pages": ["agora-governor", "agora-app", "launch"]
+      "pages": [
+        {
+          "group": "Agora Governor",
+          "pages": ["agora-governor", "agora-governor-roles"]
+        },
+        "agora-app",
+        "launch"
+      ]
     },
     {
       "group": "API Documentation",
