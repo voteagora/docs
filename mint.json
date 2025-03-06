@@ -49,10 +49,7 @@
       "pages": [
         {
           "group": "Agora Governor",
-          "pages": ["agora-governor", "governance-technical-overview", "agora-governor-roles", {
-            "group": "Proposal Voting",
-            "pages": ["voting-types"]
-          }]
+          "pages": ["agora-governor", "governance-technical-overview", "agora-governor-roles", "voting-types"]
         },
         "agora-app",
         "launch"
