@@ -49,7 +49,7 @@
       "pages": [
         {
           "group": "Agora Governor",
-          "pages": ["agora-governor", "agora-governor-roles"]
+          "pages": ["agora-governor", "governance-technical-overview", "agora-governor-roles"]
         },
         "agora-app",
         "launch"
