@@ -1,0 +1,111 @@
+---
+title: "Governance Technical Overview"
+description: "A comprehensive technical overview of Agora's governance system components and lifecycle"
+---
+
+# Governance Technical Overview
+
+This document provides a technical overview of how Agora's governance system works, including its key components and the lifecycle of proposals.
+
+## System Components
+
+### Core Components
+
+- **Token**
+  - Tracks token holder balances
+  - Manages voting power of delegates
+  - Enables voting on proposals
+
+- **Governor**
+  - Provides primary access control logic
+  - Processes proposals and associated votes
+  - Determines proposal success or failure
+  - Manages voting periods and thresholds
+
+- **Timelock**
+  - Receives instructions from governor for successful proposals
+  - Implements time delay for stakeholder response
+  - Executes approved instructions after delay period
+
+### Additional Components
+
+- **Modules** (e.g., approval voting)
+  - Provide optional voting strategies
+  - Enable features like multiple choice voting
+  - Extend governor functionality
+
+### Privileged Roles
+
+For detailed information about roles and permissions, see the [Governor Roles documentation](/agora-governor/agora-governor-roles).
+
+- **Governor Manager**
+  - Trusted address with proposal submission rights
+  - Can bypass proposal threshold requirements
+  - Typically controlled by the foundation initially
+
+- **Security Council**
+  - Trusted multisig with protocol upgrade capabilities
+  - Can perform emergency upgrades when needed
+  - Ensures protocol safety during critical changes
+
+- **Governor Admin**
+  - Trusted multisig with broad system privileges
+  - Enables manual execution and intervention
+  - Can be same address as Security Council (optional)
+  - Acts as last-resort safeguard
+
+## Proposal Lifecycle
+
+![Governance System Flow](/images/governance/flow.png)
+
+### Initial Launch Configuration
+
+At launch, the system is configured for maximum safety and control:
+
+1. **High Proposal Threshold**
+   - Set initially high to restrict proposal creation
+   - Only Governor Manager (foundation) can propose initially
+   - Enables controlled governance rollout
+
+2. **Manual Protocol Upgrades**
+   - Protocol upgrades executed manually at first
+   - Continues until successful proposal track record
+   - Ensures maximum safety during early phase
+
+### Example Proposal Types
+
+1. **Token Transfer Proposal**
+   - Fully executed on-chain
+   - Standard governance process
+   - Automated execution through timelock
+
+2. **Normal Protocol Upgrade**
+   - Requires Security Council execution
+   - Manual implementation for safety
+   - Additional verification layer
+
+3. **Emergency Protocol Upgrade**
+   - Bypasses standard governance process
+   - Direct Security Council execution
+   - Reserved for critical situations
+
+## Progressive Decentralization
+
+As the governance system matures:
+
+1. **Proposal Threshold Reduction**
+   - Gradually lower proposal requirements
+   - Enable broader community participation
+   - Allow smaller token holders to propose
+
+2. **Upgrade Process Evolution**
+   - Move toward fully on-chain upgrades
+   - Reduce manual intervention
+   - Increase automation of execution
+
+3. **Community Empowerment**
+   - Expand voting power distribution
+   - Enhance proposal creation access
+   - Foster decentralized decision-making
+
+This progressive approach ensures the governance system can evolve safely while maintaining security and stability.
