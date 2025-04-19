@@ -1,0 +1,128 @@
+---
+title: Scoped Proposal Types
+description: Learn how to define secure, limited proposal types in a DAO using scopes.
+---
+
+import Hint from '@site/src/components/Hint';
+
+# Scoped Proposal Types
+
+Scoped Proposal Types are a powerful tool to limit what kinds of actions proposals in a DAO can take. Instead of allowing any contract call, you can define **specific, safe actions** that certain proposal types are allowed to perform.
+
+---
+
+## What Is a Proposal Type?
+
+A **Proposal Type** is a template that defines:
+
+- **Voting rules**: quorum and approval thresholds
+- **Name and description** of the type
+- **Module** (optional): a contract that can exclusively use this type
+- A list of **Scopes**: rules for what this proposal is allowed to do
+
+---
+
+## What Is a Scope?
+
+A **Scope** is a rule that says:
+
+<Hint type="tip">
+“This proposal type can only call this function on this contract, and only if the inputs match specific conditions.”
+</Hint>
+
+Each scope is bound to:
+
+- A **contract address**
+- A **function selector** (e.g. `transfer(address,uint256)`)
+- A set of **parameter rules** (with comparisons)
+- A **description** for clarity
+
+---
+
+## Example Use Case
+
+Let’s say your DAO has a proposal type called **"Treasury Settings"**. You only want it to update the budget — not move funds.
+
+1. **Create a Proposal Type:**
+   - Name: `Treasury Settings`
+   - Quorum: `10%`
+   - Approval Threshold: `60%`
+
+2. **Assign a Scope:**
+   - Contract: `Treasury` contract
+   - Function: `updateBudget(uint256)`
+   - Rule: `newBudget < 1,000,000 tokens`
+
+Any proposal of this type must:
+- Call the right contract and function
+- Pass input checks
+- Stay within the budget limit
+
+If not, it’s **invalid**.
+
+---
+
+## Admin-Only Tools
+
+Only the **Governor admin** or a **timelock** can manage scopes.
+
+Available actions:
+
+| Action              | Who can do it?       |
+|---------------------|----------------------|
+| Create proposal type | Admin / Timelock     |
+| Assign scope         | Admin / Timelock     |
+| Disable scope        | Admin / Timelock     |
+| Delete scope         | Admin / Timelock     |
+
+---
+
+## How Validation Works
+
+When someone submits a proposal:
+
+1. Each call is inspected
+2. The contract + function is hashed into a **scope key**
+3. If the key is allowed under the proposal type:
+   - Parameters are **decoded**
+   - Comparisons are **checked**
+4. If everything passes, the proposal is valid
+
+<Hint type="note">
+This system currently supports basic types only: `uint`, `address`, and `bytes32`.
+</Hint>
+
+---
+
+## Limits
+
+- Max **5 scopes per contract/function combo** for each proposal type
+- Supported data types:
+  - `uint`
+  - `address`
+  - `bytes32`
+
+---
+
+## Summary
+
+Scoped Proposal Types give DAOs granular control over what governance proposals are allowed to do. They help:
+
+- Reduce the risk of rogue proposals
+- Enable safe delegation to modules
+- Scale governance safely as your DAO grows
+
+By assigning clear scopes to proposal types, you create **permissioned governance**, without needing to trust proposal authors.
+
+---
+
+##  Who Is This For?
+
+- DAO **Governors** and **Admins**
+- Protocol **Engineers**
+- Contract **Module Builders**
+- Anyone defining **safe proposal flows**
+
+<Hint type="important">
+Scoped Proposal Types are a best practice for secure, maintainable DAO governance.
+</Hint>
