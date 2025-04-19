@@ -51,6 +51,10 @@
           "group": "Agora Governor",
           "pages": ["agora-governor", "governance-technical-overview", "agora-governor-roles", "voting-types", "scopes"]
         },
+        {
+          "group": "Agora App",
+          "pages": ["agora-app-lander", "agora-app-tx-verification"]
+        },
         "agora-app",
         "launch"
       ]

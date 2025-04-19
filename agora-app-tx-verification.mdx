@@ -1,0 +1,156 @@
+---
+title: Transaction Simulation & Verification
+description: Deep simulation of DAO proposals using full governor and timelock context, with Tenderly support.
+---
+
+import { Callout } from 'nextra/components'
+
+# Transaction Simulation & Verification
+
+When a proposal is submitted on-chain, it's critical to ensure that what’s being executed is safe, transparent, and does exactly what the proposer intends. That’s where **Transaction Simulation & Verification** comes in.
+
+This feature simulates the entire proposal execution **before it's ever executed**—using the **exact context of the governor, timelock, and the caller**. The simulation runs via [Tenderly](https://tenderly.co/), assuming it's supported by the target chain, and provides deep insight into the behavior of the proposal.
+
+## Why Simulation Matters
+
+Blockchain governance comes with irreversible consequences. Once a proposal passes, there's no undo button. That’s why simulation and verification are vital:
+
+- Catch unexpected side effects  
+- Verify all contract interactions  
+- Ensure calldata decodes as expected  
+- Establish a full audit trail of proposal behavior before it's live  
+
+By integrating simulation into the governance process, DAOs increase safety and trust for all voters.
+
+We run the same simulations when a proposal is in draft mode, giving the creator peace of mind before posting to the chain.
+
+Below is a tiny screenshot of the feature.
+
+![Draft Mode Simulation](/images/seatbelt.png)
+
+---
+
+## What We Check
+
+When a simulation runs, we verify a comprehensive set of checks.
+
+### ✅ Reports All Events Emitted
+
+We capture and display **every single event emitted** during proposal execution. This allows reviewers to:
+
+- Confirm expected events (e.g. token transfers, role assignments)
+- Detect unexpected or hidden contract behavior
+
+### ✅ Reports All State Changes
+
+We log all **changes to contract storage**, including:
+
+- Updated variables  
+- New values for mappings or arrays  
+- Any modifications made during execution  
+
+This helps confirm that the proposal impacts state exactly as intended—nothing more, nothing less.
+
+### ✅ Decodes Target Calldata
+
+All target calldata is:
+
+- **Decoded into human-readable formats**  
+- Matched against known ABI definitions  
+
+This gives voters and reviewers confidence in the intent of each call and makes it easier to spot misconfigured or malicious data.
+
+### ✅ Verifies All Targets on Etherscan
+
+Each target address in the proposal is:
+
+- Checked for **verified contract source code** on [Etherscan](https://etherscan.io/)  
+- Flagged if any address points to an unverified or proxy contract  
+
+### ✅ Verifies All Touched Contracts on Etherscan
+
+Even if the proposal doesn't directly target them, we:
+
+- **Track every contract that gets touched**  
+- Confirm verification status for those as well  
+
+> Because malicious contracts often use `delegatecall` or indirect hops to hide behavior—we catch those too.
+
+### ✅ Checks for `selfdestruct` in Targets
+
+We analyze each target contract and verify that:
+
+- The bytecode does **not** include the `selfdestruct` opcode  
+- If present, this may indicate **dangerous or irreversible behavior**  
+
+> Proposals attempting to execute contracts with `selfdestruct` will trigger a warning or fail simulation, depending on context.
+
+### ✅ Checks for `selfdestruct` in Touched Contracts
+
+Even contracts indirectly touched during execution are checked for `selfdestruct`. A warning is raised if any are found.
+
+### ✅ Detects ETH Sent With Proposal Execution
+
+We check whether:
+
+- The proposal attempts to send **ETH along with a call**  
+- If so, it is clearly reported for transparency  
+
+This protects against silent ETH transfers or unintentional funding of contracts.
+
+### ✅ Reports All ETH Balance Changes
+
+We analyze **ETH inflows and outflows** for:
+
+- Target contracts  
+- Touched contracts  
+- The timelock or DAO itself  
+
+This ensures ETH movement is deliberate and easy to audit.
+
+---
+
+## Warnings
+
+If something passes but raises a concern (e.g. unverifiable contracts or decoded calldata with unknown selectors), we **warn but do not block**. These warnings are meant to guide further manual review.
+
+<Callout type="warning">
+  Simulation may pass with warnings. These indicate unusual behavior or unverifiable components that require additional scrutiny.
+</Callout>
+
+---
+
+## View on Tenderly
+
+Each simulation links to the full Tenderly trace, including:
+
+- Execution traces  
+- Gas usage  
+- Storage diffs  
+- Event logs  
+
+---
+
+## Under the Hood
+
+- Simulations run as if the **governor’s `execute()`** function is being called by the **timelock**, simulating the **final step** in the lifecycle of a proposal.
+- The full context includes the actual proposer, governor, timelock, and the current block timestamp.
+- We simulate against **forked mainnet state** (where supported), providing real-world fidelity.
+
+---
+
+## Who Benefits?
+
+- **DAO Voters** get peace of mind knowing what they’re voting on  
+- **Protocol Developers** can debug and verify proposals before submission  
+- **Governance Facilitators** can provide richer documentation and transparency to the community  
+
+<Callout type="info" emoji="🛡️">
+
+## Big thanks to [Seatbelt](https://github.com/Uniswap/governance-seatbelt) 🧷
+
+This feature was **heavily inspired** by the amazing work in the [Seatbelt project](https://github.com/Uniswap/governance-seatbelt), which laid the groundwork for many of the ideas around pre-execution simulation, calldata decoding, and safety verification.
+
+If you're curious about how proposal-level simulations can be structured, we highly recommend checking out their codebase.
+
+</Callout>
