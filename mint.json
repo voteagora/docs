@@ -55,7 +55,6 @@
           "group": "Agora App",
           "pages": ["agora-app-lander", "agora-app-tx-verification"]
         },
-        "agora-app",
         "launch"
       ]
     },
