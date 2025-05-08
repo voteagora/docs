@@ -11,13 +11,11 @@ description: "A technical overview of Agora's governance system components and t
   - Tracks token holder balances
   - Manages voting power of delegates
   - Enables voting on proposals
-
 - **Governor**
   - Provides primary access control logic
   - Processes proposals and associated votes
   - Determines proposal success or failure
   - Manages voting periods and thresholds
-
 - **Timelock**
   - Receives instructions from governor for successful proposals
   - Implements time delay for stakeholder response
@@ -38,12 +36,10 @@ For detailed information about roles and permissions, see the [Agora Governor Ro
   - Trusted address with proposal submission rights
   - Can bypass proposal threshold requirements
   - Typically controlled by the foundation initially
-
 - **Security Council**
   - Trusted multisig with protocol upgrade capabilities
   - Can perform emergency upgrades when needed
   - Ensures protocol safety during critical changes
-
 - **Governor Admin**
   - Trusted multisig with broad system privileges
   - Enables manual execution and intervention
@@ -56,6 +52,29 @@ For detailed information about roles and permissions, see the [Agora Governor Ro
 
 ![Governance System Flow](/images/governance/ExampleVotingCycle.png)
 
+Below is an overview of the on-chain states a proposal can exist in, at any given state of its lifecycle.
+
+1. PENDING
+
+   The proposal has been created but is not yet ready for voting. This is typically a waiting period before voting begins.
+2. ACTIVE
+
+   The proposal is currently in its voting period and can accept votes. During this state, only admins can cancel the proposal.
+3. CANCELLED\
+   The proposal was cancelled by either the admin or the proposer (depending on the governance system). Once cancelled, the proposal cannot be executed.
+4. DEFEATED\
+   The proposal failed to meet the required voting thresholds or quorum requirements and cannot be executed.
+5. SUCCEEDED\
+   The proposal passed the voting requirements and is ready to be queued for execution. As shown in the code, successful proposals can be queued by calling the queue function.
+6. QUEUED\
+   The proposal has been queued and is waiting for the timelock period to pass. During this state:
+   - The proposal can still be cancelled by the admin
+   - Once the timelock period passes, it becomes eligible for execution
+7. EXECUTED\
+   The proposal has been executed, meaning its contained actions have been carried out. This is the final state of a successful proposal.
+8. CLOSED\
+   The proposal's voting period has ended but it did not meet the requirements to succeed. This is similar to DEFEATED.
+
 ### Initial Launch Configuration
 
 While the end goal for any protocol is full decentralization (where the DAO and voters have full control over token transfers, protocol upgrades, and more), we recommend a measured, progressive approach to decentralization. At launch, we recommend maximum safety and control:
@@ -64,7 +83,6 @@ While the end goal for any protocol is full decentralization (where the DAO and 
    - Set initially high to restrict proposal creation
    - Only Governor Manager (Foundation) can propose initially
    - Enables controlled governance rollout
-
 2. **Manual Protocol Upgrades**
    - Protocol upgrades executed manually at first
    - Continues until successful proposal track record
@@ -76,12 +94,10 @@ While the end goal for any protocol is full decentralization (where the DAO and 
    - Fully executed on-chain
    - Standard governance process
    - Automated execution through timelock
-
 2. **Normal Protocol Upgrade**
    - Requires Security Council execution
    - Manual implementation for safety
    - Additional verification layer
-
 3. **Emergency Protocol Upgrade**
    - Bypasses standard governance process
    - Direct Security Council execution
@@ -95,12 +111,10 @@ As the governance system matures:
    - Gradually lower proposal requirements
    - Enable broader community participation
    - Allow smaller token holders to propose
-
 2. **Upgrade Process Evolution**
    - Move toward fully on-chain upgrades
    - Reduce manual intervention
    - Increase automation of execution
-
 3. **Community Empowerment**
    - Expand voting power distribution
    - Enhance proposal creation access
