@@ -52,7 +52,7 @@ For detailed information about roles and permissions, see the [Agora Governor Ro
 
 ![Governance System Flow](/images/governance/ExampleVotingCycle.png)
 
-Below is an overview of the on-chain states a proposal can exist in, at any given state of its lifecycle.
+Below is an overview of the proposal states a proposal can exist in, at any given state of its lifecycle.
 
 1. PENDING
 
@@ -72,7 +72,7 @@ Below is an overview of the on-chain states a proposal can exist in, at any give
    - Once the timelock period passes, it becomes eligible for execution
 7. PASSED
 
-   The proposal has been queued for execution, but for any reason hasn't been executed on chain after 10 days.  Reasons might include nobody calling the execute function or a proposal with invalid on-chain instructions.  Example would include a signal-only vote done on-chain with no-op instructions that cause the timelock to revert, or a proposal that attempts to transfer tokens that don't exist.
+   The proposal has been queued for execution, but for any reason hasn't been executed on chain after 10 days.  Reasons might include nobody calling the execute function or a proposal with invalid on-chain instructions.  Example would include a signal-only vote done on-chain with no-op instructions that cause the timelock to revert.  This state exists only off-chain, to clarify that no action is needed by the user, since it's off chain.
 8. EXECUTED\
    The proposal has been executed, meaning its contained actions have been carried out. This is the final state of a successful proposal.
 9. CLOSED\
