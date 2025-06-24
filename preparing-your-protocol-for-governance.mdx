@@ -1,0 +1,87 @@
+---
+title: Preparing Your Protocol for Governance
+description: Actions today can set you up for success tomorrow.
+---
+
+As your protocol nears launch, you're facing a critical architectural decision: **how should power be distributed?** Who gets to upgrade contracts? Who controls the treasury? And how do you plan for decentralization — without sacrificing agility?
+
+The traditional answer is simple: deploy your contracts behind a proxy and assign an `admin` address with full control. But there's a better pattern emerging, one designed for modern protocols that want to launch fast **and** decentralize responsibly:
+
+Use both an `admin` and a `governor` address.
+
+This pattern gives you flexibility today and trust tomorrow.
+
+---
+
+## The Transparent Proxy Pattern
+
+Most protocols today use upgradable contracts. The most common design is the transparent proxy pattern. You launch your protocol with a proxy contract that delegates calls to a separate implementation contract. This proxy contract is the single point of power for the entire protocol and makes upgrades much easier. You can continue pointing to a new implementaiton without users changing their interface to your protocol.
+
+
+## The Dual Role Architecture
+
+To solve this, we recommend assigning two separate roles in your protocol and proxy.
+
+The `admin` address is the super admin of the protocol and has full control over the protocol. This is the address that will be used to upgrade the protocol and to respond to emergencies. It can also be used to change parameters, move funds, and pause the protocol. It can do anything. It's the super admin.
+
+The `governor` address is the community interface and has limited control over the protocol at the beginning. It should be configured to manage the treasury and upgrade protocol parameters. Then as the protocol matures, the governor can be configured to manage more of the protocol.
+
+However, by having the `admin` address in your backpocket, if you need to make a change and don't want to wait for the standing proposal lifecycle, you can do it. Or if there is a bug in the implementation, you can upgrade the implementation and keep the protocol running without waiting for a proposal to pass or an embarassing proposal to be executed.
+
+---
+
+## Progressively Decentralization
+
+You should only consider this if you plan on decentralizing your protocol. The dual role architecture allows you to progressivly decentralize your protocol with the comfort of a skeleton key in the form of the `admin` address.
+
+Once you and your community get comfortable you can start to move more power to the governor. 
+
+Then when the time is right, you can move the admin role to the governor and burn the admin address, completing the decentraliztion process.
+
+
+## What About the Proxy Admin Address?
+
+If you're using a TransparentUpgradeableProxy, the `admin` is the only address that can call `upgradeTo()` and change the underlying logic.
+
+Initially, this should be a secure, well-controlled multisig. Later, **this address should be transferred to the Governor contract.**
+
+
+```solidity
+proxy.changeAdmin(address(governor));
+```
+
+## Technical considerations
+
+You will need to setup modifiers in your protocol to make sure that only the `admin` or `governor` can call certain functions.
+
+```solidity
+modifier onlyAdmin() {
+    require(msg.sender == admin, "Only admin can call this function");
+    _;
+}
+```
+
+```solidity
+modifier onlyGovernor() {
+    require(msg.sender == governor, "Only governor can call this function");
+    _;
+}
+```
+
+```solidity
+modifier onlyAdminOrGovernor() {
+    require(msg.sender == admin || msg.sender == governor, "Only admin or governor can call this function");
+    _;
+}
+```
+
+
+Doing this will ensure that you are setting up your protocol for future progressive decentralization while maintaining full secuirty and control over the protocol.
+
+<Card
+  title="Book your workshop"
+  icon="mobile"
+  href="https://www.agora.xyz/talk-to-our-team?utm_source=guides_cta&utm_medium=referral&utm_campaign=docs1"
+>
+  Book an hour to sit down with our engineering team to discuss your protocol and how to prepare it for governance.
+</Card>
