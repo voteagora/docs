@@ -7,7 +7,7 @@ import Hint from '@site/src/components/Hint';
 
 # Scoped Proposal Types
 
-Scoped Proposal Types are a powerful tool to limit what kinds of actions proposals in a DAO can take. Instead of allowing any contract call, you can define **specific, safe actions** that certain proposal types are allowed to perform.
+Scoped Proposal Types are a powerful tool to add limits on specific actions a proposal in a DAO can take, while forcing specific contract calls to flow through specific proposal types.  Instead of allowing a contract call with any value parameter, you can define **specific, safe actions** that certain proposal types are allowed to perform.  Additionally, once a scope is defined, other proposal types are blocked from making any similar call.
 
 ---
 
@@ -27,21 +27,22 @@ A **Proposal Type** is a template that defines:
 A **Scope** is a rule that says:
 
 <Hint type="tip">
-“This proposal type can only call this function on this contract, and only if the inputs match specific conditions.”
+“If this proposal type proposes a transaction that uses a specific contract and function, then the inputs must match specific conditions.  Additionally, if a rule exists, no other proposal type can propose a transaction with the same contract and function.”
 </Hint>
 
 Each scope is bound to:
 
 - A **contract address**
 - A **function selector** (e.g. `transfer(address,uint256)`)
-- A set of **parameter rules** (with comparisons)
-- A **description** for clarity
+- An optional set of **parameter rules** (with comparisons)
+
+Plus, there is a **description** for clarity.
 
 ---
 
 ## Example Use Case
 
-Let’s say your DAO has a proposal type called **"Treasury Settings"**. You only want it to update the budget — not move funds.
+Let’s say your DAO has a proposal type called **"Treasury Settings"**. You want it to update the budget, but not give it infinite budget.
 
 1. **Create a Proposal Type:**
    - Name: `Treasury Settings`
@@ -53,12 +54,11 @@ Let’s say your DAO has a proposal type called **"Treasury Settings"**. You onl
    - Function: `updateBudget(uint256)`
    - Rule: `newBudget < 1,000,000 tokens`
 
-Any proposal of this type must:
-- Call the right contract and function
-- Pass input checks
-- Stay within the budget limit
+Any proposal of this type, would then be limited in it's ability to invoke that contract's function, below 1,000,000 token.  
 
 If not, it’s **invalid**.
+
+Additionally, no other proposal type, could call `updateBudget` on that contract (unless an additional scope rule was made permitting it).
 
 ---
 
