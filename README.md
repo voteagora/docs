@@ -21,3 +21,4 @@ mintlify dev
 3. Open a PR and tag [@kent](https://github.com/kent) for review
 
 Thank you for your help to make Agora docs even better.
+
