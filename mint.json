@@ -61,7 +61,7 @@
           "pages": ["agora-app-lander", "agora-app-tx-verification"]
         },
         {
-          "group": "Duna",
+          "group": "DUNA",
           "pages": ["duna"]
         },
         "launch"
