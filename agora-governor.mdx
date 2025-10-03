@@ -114,6 +114,10 @@ The `ProposalTypesConfigurator` contract streamlines and secures how proposal ty
 
    Each proposal type sets a quorum and approval threshold, both scaled by `PERCENT_DIVISOR` for precise percentage-based calculations. These parameters ensure that the right proportion of token holders or delegates must support a proposal before it can pass. Additionally, the contract enforces input validation, preventing misconfiguration of these critical governance levers.
 
+4. **Proposal Type Deletion and Security:**
+
+   While there is no explicit "delete" method for proposal types, they can be effectively disabled by setting all their values to zero. When a proposal type is deleted, the system sets the name field to an empty string (`string(0)`) and zeros out all associated parameters (quorum, approval thresholds, etc.). This approach provides a built-in security safeguard: if someone attempts to use a deleted proposal type ID later, the transaction will revert because the name field must have a length greater than 0. This prevents potential attack vectors where deleted proposal types could be exploited with unintended parameters.
+
 ## Modules
 
 **Extending and customizing your governance system**
