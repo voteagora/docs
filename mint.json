@@ -60,6 +60,10 @@
           "group": "Agora App",
           "pages": ["agora-app-lander", "agora-app-tx-verification"]
         },
+        {
+          "group": "DUNA",
+          "pages": ["duna"]
+        },
         "launch"
       ]
     },
