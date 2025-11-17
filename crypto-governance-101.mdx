@@ -98,6 +98,115 @@ At its core, ERC20 is a versatile token standard that defines how tokens are tra
 - **Scaling and Community Building:**
   As your community and protocol scale, delegation helps maintain governance efficiency. By concentrating voting power in the hands of trusted delegates—who might be domain experts, active community members, or specialized committees—ERC-20 delegation reduces voter fatigue, promotes informed discourse, and ensures the protocol's governance can handle increased complexity over time.
 
+### Common Gotchas & Design Pitfalls
+
+Developers often assume `ERC20Votes` is “just an ERC20 with delegation.” In practice, following the **spirit and intent of `IVotes`** requires careful attention. Below are the real-world pitfalls that frequently cause governance failures, forked state, or unexpected voting power behavior.
+
+---
+
+#### 1. **Forgetting to Override Token Transfer Hooks**
+`ERC20Votes` requires you to call vote-tracking hooks on mint, burn, and transfer.
+
+- Missing hooks = incorrect voting power.
+- Incorrect voting power = proposals passing or failing incorrectly.
+
+Required internal calls:
+- `_moveVotingPower` during transfers  
+- `_writeCheckpoint` during mint/burn
+
+**Symptom:** Proposal results don’t match expectations or delegates appear to have 0 voting power.
+
+---
+
+#### 2. **Delegation Requires an Explicit Transaction**
+`IVotes` does **not** automatically give an address voting power when it receives tokens.  
+A holder must **explicitly delegate**, even to themselves.
+
+**Best practice:**  
+Consider delegating to `msg.sender` on mint *only if* your governance model intends that behavior.
+
+---
+
+#### 3. **Delegation Moves With Transfers Only in Spirit, Not Automatically**
+Delegation is bound to the **holder**, not the **tokens**.
+
+This means:
+- When a holder transfers tokens away, their delegate loses voting power.
+- When they receive tokens, their delegate gains voting power.
+
+If your token has custom transfer logic or restricted transfers, ensure voting checkpoints remain correct.
+
+---
+
+#### 4. **Relying on Live Balances Instead of `getPastVotes`**
+Governance must rely on **historical snapshots**.
+
+Using `balanceOf` or `getVotes` during voting is a critical mistake.
+
+You must use:
+- `getPastVotes(blockNumber)`
+- `getPastTotalSupply(blockNumber)`
+
+Using live balances enables last-minute manipulation and breaks compatibility with governance tooling.
+
+---
+
+#### 5. **Checkpoint Growth & Gas Costs**
+Checkpoint arrays can grow large for highly traded or frequently minted/burned tokens.
+
+Common mistakes:
+- Using an ERC20Votes token as a high-frequency trading asset
+- Large amounts of automated minting or burning
+
+The guidance is to prefer a dedicated governance token to minimize checkpoint spam.
+
+---
+
+#### 6. **Off-Chain Signatures for Delegation**
+`delegateBySig` uses EIP-712 signatures. Developers often:
+
+- Misconfigure the domain separator
+- Reuse a domain intended for `permit`
+- Create signatures incompatible with chain forks or upgrades
+
+This silently breaks gasless delegation.
+
+---
+
+#### 7. **Token Supply Changes Must Be Checkpointed**
+Minting or burning must also checkpoint supply updates.
+
+Common mistakes:
+- Forgetting to track total-supply checkpoints
+- Minting in an initializer, desyncing block 0 supply
+- Skipping `_writeCheckpoint` on burns
+
+This leads to incorrect quorum calculations.
+
+---
+
+#### 8. **Rebasing or Elastic Tokens Are Incompatible**
+Rebasing tokens fundamentally break snapshot logic because snapshots assume historical balances remain valid.
+
+A rebasing token:
+- Changes balances retroactively  
+- Cannot be reconciled with `getPastVotes`  
+
+Rebasing tokens should not use `ERC20Votes`.
+
+---
+
+#### 9. **Delegation Graph Misunderstandings**
+`IVotes` only supports one-hop delegation.
+
+- Alice → Bob → Carol  
+  - Alice’s votes go to Bob  
+  - **Not** Carol
+
+Some protocols assume multi-hop propagation, which is incorrect.
+
+---
+
 **Further Reading:**
 
 For more technical details, best practices, and implementation examples, refer to the [OpenZeppelin ERC-20 Documentation](https://docs.openzeppelin.com/contracts/5.x/erc20). Their guidance, patterns, and security considerations provide a solid foundation, ensuring that your delegation and governance mechanics rest on a well-tested and industry-recognized standard.
