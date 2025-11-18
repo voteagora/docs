@@ -111,10 +111,10 @@ Developers often assume `ERC20Votes` is “just an ERC20 with delegation.” In 
 - Incorrect voting power = proposals passing or failing incorrectly.
 
 Required internal calls:
-- `_moveVotingPower` during transfers  
-- `_writeCheckpoint` during mint/burn
+- `_update` during transfers  
+- `_transferVotingUnits` during mint/burn
 
-**Symptom:** Proposal results don’t match expectations or delegates appear to have 0 voting power.
+Without these calls, you run the risk of not accurately displaying voting power.
 
 ---
 
@@ -134,7 +134,7 @@ This means:
 - When a holder transfers tokens away, their delegate loses voting power.
 - When they receive tokens, their delegate gains voting power.
 
-If your token has custom transfer logic or restricted transfers, ensure voting checkpoints remain correct.
+If your token has custom transfer logic or restricted transfers, ensure voting delegations logic remains untouched unless you want to manage delegations directly.
 
 ---
 
@@ -179,9 +179,9 @@ Minting or burning must also checkpoint supply updates.
 Common mistakes:
 - Forgetting to track total-supply checkpoints
 - Minting in an initializer, desyncing block 0 supply
-- Skipping `_writeCheckpoint` on burns
+- Skipping `_transferVotingUnits` on burns
 
-This leads to incorrect quorum calculations.
+This leads to incorrect quorum calculations in addition to incorrect voting power as outlined above.
 
 ---
 
@@ -203,7 +203,7 @@ Rebasing tokens should not use `ERC20Votes`.
   - Alice’s votes go to Bob  
   - **Not** Carol
 
-Some protocols assume multi-hop propagation, which is incorrect.
+Some protocols assume multi-hop propagation, which is incorrect. For more advanced delegation schemes see `ERC20VotesPartialDelegationUpgradeable`
 
 ---
 
