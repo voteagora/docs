@@ -17,7 +17,12 @@ mintlify dev
 ## Contrubuting to our docs
 
 1. Clone the repo
-2. Add your glossary terms or suggest updates to docs
-3. Open a PR and tag [@kent](https://github.com/kent) for review
+2. Enhance.
+3. Open a PR.
+4. If confident, merge, else ask for a review. 
 
 Thank you for your help to make Agora docs even better.
+
+## Live Site
+
+[https://docs.agora.xyz/](https://docs.agora.xyz/)
