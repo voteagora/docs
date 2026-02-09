@@ -1,0 +1,252 @@
+---
+title: Notifications Hub
+description: "Centralized hub for configuring multi-channel notifications across all your governance activities."
+---
+
+## What is the Notifications Hub?
+
+The Notifications Hub is a centralized preferences screen where you configure how you receive governance notifications. Instead of relying on a single channel or missing important updates entirely, you can connect multiple channels and fine-tune exactly which events trigger alerts.
+
+**Key benefits:**
+
+- **Multi-channel delivery**: Receive notifications via email, Discord, Slack, Telegram, and/ or browser push
+- **Per-event control**: Enable or disable notifications for specific events across each channel
+- **Wallet-linked preferences**: Your settings are tied to your connected wallet and saved per client
+- **Instant setup**: Connect a channel and start receiving notifications in minutes
+
+Whether you're a delegate tracking new proposals, a community member following forum discussions, or a grants administrator monitoring applications, the Notifications Hub ensures you stay informed on your terms.
+
+## Setting Up Notifications
+
+Getting started takes just a few steps. Once configured, your preferences persist across sessions - update them anytime from the Notifications Hub.
+
+### Step 1: Sign to Manage Notifications
+
+To access the Notifications Hub, you must first link your wallet to your notification preferences. This requires a one-time signature.
+
+1. Connect your wallet to the governance site
+2. Open the wallet dropdown menu
+3. Select **"Sign to manage notifications"**
+
+<img 
+  src="/images/notifications-hub/profile-dropdown.png" 
+  alt="Wallet dropdown showing Sign to manage notifications"
+  style={{ maxWidth: '400px' }}
+/>
+
+<Note>
+The signature does not grant any permissions or authorize transactions. It simply verifies wallet ownership so your preferences can be securely associated with your address.
+</Note>
+
+After signing, you'll be taken directly to the **Notification Preferences** screen.
+
+### Step 2: Connect Your Channels
+
+The Notifications Hub supports five notification channels. Connect as many as you like - each channel operates independently, giving you maximum flexibility.
+
+![Notification Preferences overview with channel connectors](/images/notifications-hub/notifications-screen.png)
+
+Available channels:
+
+| Channel | Description |
+|---------|-------------|
+| **Email** | Receive notifications in your inbox. Requires verification. |
+| **Discord** | Send notifications to a Discord channel via webhook. |
+| **Slack** | Deliver notifications to a Slack channel via incoming webhook. |
+| **Telegram** | Get real-time mobile alerts through the Agora Telegram bot. |
+| **Browser Push** | Receive native browser notifications on your current device. |
+
+### Step 3: Choose What You Want to Be Notified About
+
+Once your channels are connected, use the notification events table to customize your preferences. Each row represents a specific event type, and each column represents a connected channel.
+
+![Notification events table with toggles](/images/notifications-hub/notifications-preferences.png)
+
+Toggle notifications on or off for each combination of event and channel. For example, you might enable email notifications for new proposals but prefer to receive forum activity alerts only via Discord.
+
+Your preferences save automatically as you make changes.
+
+## Notification Channels Explained
+
+### Email
+
+Email notifications are delivered directly to your inbox. When you add an email address, you'll receive a verification email - click the link to confirm ownership before notifications can be sent.
+
+**Setup:**
+
+1. Enter your email address in the Email field
+2. Click **Connect**
+3. Check your inbox for a verification email
+4. Click the verification link to activate
+
+<Tip>
+Check your spam or junk folder if you don't see the verification email within a few minutes.
+</Tip>
+
+### Discord Webhook
+
+Discord webhook notifications send messages directly to a Discord channel of your choice. This is ideal for teams or communities that coordinate through Discord.
+
+**Setup:**
+
+1. In Discord, open your server's **Server Settings**
+2. Navigate to **Integrations** → **Webhooks**
+3. Click **New Webhook** and configure the target channel
+4. Copy the webhook URL
+5. Paste the URL into the Discord Webhook field in the Notifications Hub
+6. Click **Connect**
+
+Once connected, governance notifications will appear in your chosen Discord channel.
+
+### Slack Webhook
+
+Slack notifications use incoming webhooks to deliver messages to a Slack channel. Perfect for organizations that use Slack for internal communications.
+
+**Setup:**
+
+1. Go to your Slack workspace's **App Directory**
+2. Search for and add **Incoming Webhooks**
+3. Select the channel where you want notifications to appear
+4. Copy the generated webhook URL
+5. Paste the URL into the Slack Webhook field in the Notifications Hub
+6. Click **Connect**
+
+### Telegram
+
+Telegram notifications provide real-time mobile alerts through the Agora Telegram bot. This channel is particularly useful for receiving priority alerts on the go.
+
+**Setup:**
+
+1. Click **Link Telegram** in the Notifications Hub
+2. Click **Open Telegram** when the linking prompt appears
+3. Complete the linking process in the Telegram app by interacting with the Agora bot
+
+Once linked, your Telegram username will appear in the Notifications Hub, confirming the connection.
+
+<Note>
+The linking URL expires after a few minutes. If it expires before you complete the process, simply request a new link.
+</Note>
+
+### Browser Push / PWA
+
+Browser push notifications deliver native alerts directly to your device through your browser. Unlike other channels, push notifications are **device-specific** - you'll need to enable them on each device where you want to receive alerts.
+
+**Setup:**
+
+1. Click **Enable browser notifications on this device**
+2. Approve the browser permission prompt when it appears
+3. Complete a quick signature to link this device
+
+To disable push notifications on a device, return to the Notifications Hub from that device and click **Disable push on this device**.
+
+## Notification Categories
+
+Notifications are organized into categories based on governance activity. Each category contains specific event types that you can enable or disable independently.
+
+### Forums
+
+Stay engaged with community discussions. Forum notifications include:
+
+- **Comment on Engaged Discussion** - Comment on discussion you created or commented in
+- **Comment on Watched Discussion** - Comment on discussion you're watching
+- **New Discussion in Watched Category** - New topic in a category you subscribe to
+- **Reaction on Your Post** - Someone reacted to your comment
+- **Direct Reply to Your Comment** - Someone replied directly to your comment
+- **Your Topic Was Upvoted** - Someone upvoted your discussion topic
+
+### Proposals
+
+Never miss a vote. Proposal notifications include:
+
+- **New Proposal Published** - When a new governance proposal is published
+- **Proposal Reminder (24h)** - Reminder 24 hours before voting ends
+- **Proposal Reminder (1h)** - Reminder 1 hour before voting ends
+
+### Grants
+
+Track grant program activity. Grants notifications include:
+
+- **Grant Application Submitted** - A new grant application was submitted
+- **Grant Application Accepted** - A grant application was accepted
+- **Grant Application Rejected** - A grant application was rejected
+
+<Warning>
+**Grants notifications are permission-gated.** Only users with the appropriate grants management permissions can view and configure Grants notifications. If you don't see the Grants category in your notification preferences, your connected wallet does not have the required access.
+
+See [Permissions & Access Control](#permissions--access-control) for more details.
+</Warning>
+
+## Permissions & Access Control
+
+Certain notification categories, such as Grants, are restricted to users with appropriate permissions. This ensures that sensitive governance information is only delivered to authorized individuals.
+
+### Who Can Access Grants Notifications?
+
+Grants notifications are available to wallets that have:
+
+- **Grants management permissions** for the specific client, OR
+- **Administrative access** to the client's grants program
+
+These permissions are managed at the client level and are typically assigned to grants committee members, program administrators, and designated reviewers.
+
+### What If I Don't See Grants Notifications?
+
+If the Grants category is missing or disabled in your notification preferences:
+
+1. Your connected wallet does not have the required permissions
+2. This is expected behavior, not a bug or error
+
+<Tip>
+**Need access?** Contact your community's administrator or grants program lead to request the appropriate permissions for your wallet address.
+</Tip>
+
+### Why Are Permissions Required?
+
+Permission-gating helps maintain confidentiality and ensures that sensitive information about grant applications, such as submission details and review decisions, is only shared with the right people. Once your wallet is granted the necessary permissions, the Grants category will automatically appear in your Notifications Hub.
+
+## FAQ & Troubleshooting
+
+### Why do I need to sign to manage notifications?
+
+The signature verifies that you own the connected wallet. This ensures your notification preferences are securely associated with your address and prevents unauthorized access. The signature does not authorize any transactions or grant any permissions.
+
+### I connected a webhook but didn't receive notifications
+
+If your Discord or Slack webhook isn't delivering notifications:
+
+1. Verify the webhook URL is correct and complete
+2. Confirm the webhook is active in your Discord/Slack settings
+3. Check that the target channel still exists and the webhook has permission to post
+4. Ensure you've enabled at least one notification event for that channel in the preferences matrix
+
+### Why can't I see Grants notifications?
+
+The Grants notification category is permission-gated. If you don't see it, your connected wallet doesn't have grants management permissions. Contact your community's administrator to request access.
+
+### Why are browser notifications not showing?
+
+Browser push notifications require:
+
+1. The notification subscription to be active for your current device
+2. Browser permissions to be granted (check your browser's notification settings)
+3. A completed wallet signature to link the device
+
+If notifications stop working, try disabling and re-enabling browser push in the Notifications Hub.
+
+### Can I use multiple channels at once?
+
+Yes. You can connect and enable all five channels simultaneously. Each channel operates independently; enable the same event on multiple channels if you want redundant notifications, or distribute different event types across different channels based on your preferences.
+
+### Do my preferences sync across communities?
+
+No. Notification preferences are saved per client. If you participate in governance across multiple Agora deployments (e.g., Uniswap and Optimism), you'll need to configure your preferences separately for each.
+
+### How do I disconnect a channel?
+
+Click **Edit** next to any connected channel, then click **Disconnect**. Your preferences will be preserved - if you reconnect the same channel later, your previous settings will be restored.
+
+---
+
+## Get Started
+
+Configuring your notification preferences takes just a few minutes and ensures you never miss the governance activity that matters to you. Whether you prefer the immediacy of Telegram, the visibility of email, or the integration of Slack and Discord, the Notifications Hub meets you where you already work.
