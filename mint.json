@@ -58,7 +58,7 @@
         },
         {
           "group": "Agora App",
-          "pages": ["agora-app-lander", "agora-app-tx-verification"]
+          "pages": ["agora-app-lander", "agora-app-tx-verification", "notifications-hub"]
         },
         "launch"
       ]
