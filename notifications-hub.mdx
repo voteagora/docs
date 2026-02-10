@@ -5,16 +5,16 @@ description: "Centralized hub for configuring multi-channel notifications across
 
 ## What is the Notifications Hub?
 
-The Notifications Hub is a centralized preferences screen where you configure how you receive governance notifications. Instead of relying on a single channel or missing important updates entirely, you can connect multiple channels and fine-tune exactly which events trigger alerts.
+The Notifications Hub is a centralized preferences screen where you configure how you receive governance notifications. Instead of relying on a single channel or missing important updates entirely, you can connect multiple channels and fine-tune exactly which events trigger notifications.
 
 **Key benefits:**
 
 - **Multi-channel delivery**: Receive notifications via email, Discord, Slack, Telegram, and/ or browser push
 - **Per-event control**: Enable or disable notifications for specific events across each channel
-- **Wallet-linked preferences**: Your settings are tied to your connected wallet and saved per client
-- **Instant setup**: Connect a channel and start receiving notifications in minutes
+- **Wallet-linked preferences**: Your settings are tied to your connected wallet
+- **Instant setup**: Connect a channel and start receiving notifications immediately.
 
-Whether you're a delegate tracking new proposals, a community member following forum discussions, or a grants administrator monitoring applications, the Notifications Hub ensures you stay informed on your terms.
+Whether you're a delegate tracking new proposals or a community member following forum discussions, the Notifications Hub ensures you stay informed on your terms.
 
 ## Setting Up Notifications
 
@@ -22,17 +22,13 @@ Getting started takes just a few steps. Once configured, your preferences persis
 
 ### Step 1: Sign to Manage Notifications
 
-To access the Notifications Hub, you must first link your wallet to your notification preferences. This requires a one-time signature.
+To access the Notifications Hub, you must first link your wallet to your notification preferences.
 
 1. Connect your wallet to the governance site
 2. Open the wallet dropdown menu
 3. Select **"Sign to manage notifications"**
 
-<img 
-  src="/images/notifications-hub/profile-dropdown.png" 
-  alt="Wallet dropdown showing Sign to manage notifications"
-  style={{ maxWidth: '400px' }}
-/>
+![Wallet dropdown showing "Sign to manage notifications"](/images/notifications-hub/profile-dropdown.png)
 
 <Note>
 The signature does not grant any permissions or authorize transactions. It simply verifies wallet ownership so your preferences can be securely associated with your address.
@@ -53,7 +49,7 @@ Available channels:
 | **Email** | Receive notifications in your inbox. Requires verification. |
 | **Discord** | Send notifications to a Discord channel via webhook. |
 | **Slack** | Deliver notifications to a Slack channel via incoming webhook. |
-| **Telegram** | Get real-time mobile alerts through the Agora Telegram bot. |
+| **Telegram** | Get real-time mobile notifications through the Agora Telegram bot. |
 | **Browser Push** | Receive native browser notifications on your current device. |
 
 ### Step 3: Choose What You Want to Be Notified About
@@ -62,7 +58,7 @@ Once your channels are connected, use the notification events table to customize
 
 ![Notification events table with toggles](/images/notifications-hub/notifications-preferences.png)
 
-Toggle notifications on or off for each combination of event and channel. For example, you might enable email notifications for new proposals but prefer to receive forum activity alerts only via Discord.
+Toggle notifications on or off for each combination of event and channel. For example, you might enable email notifications for new proposals but prefer to receive forum activity updates only via Discord.
 
 Your preferences save automatically as you make changes.
 
@@ -113,7 +109,7 @@ Slack notifications use incoming webhooks to deliver messages to a Slack channel
 
 ### Telegram
 
-Telegram notifications provide real-time mobile alerts through the Agora Telegram bot. This channel is particularly useful for receiving priority alerts on the go.
+Telegram notifications provide real-time mobile updates through the Agora Telegram bot. This channel is particularly useful for receiving priority updates on the go.
 
 **Setup:**
 
@@ -129,7 +125,7 @@ The linking URL expires after a few minutes. If it expires before you complete t
 
 ### Browser Push / PWA
 
-Browser push notifications deliver native alerts directly to your device through your browser. Unlike other channels, push notifications are **device-specific** - you'll need to enable them on each device where you want to receive alerts.
+Browser push notifications deliver native notifications directly to your device through your browser. Unlike other channels, push notifications are **device-specific** - you'll need to enable them on each device where you want to receive notifications.
 
 **Setup:**
 
@@ -173,77 +169,18 @@ Track grant program activity. Grants notifications include:
 <Warning>
 **Grants notifications are permission-gated.** Only users with the appropriate grants management permissions can view and configure Grants notifications. If you don't see the Grants category in your notification preferences, your connected wallet does not have the required access.
 
-See [Permissions & Access Control](#permissions--access-control) for more details.
+Contact your DUNA Administrator or Grant Manager to grant you the appropriate permissions. They will need your wallet address.
+
+See the Permissions & Access Control section below for more info.
 </Warning>
 
 ## Permissions & Access Control
 
-Certain notification categories, such as Grants, are restricted to users with appropriate permissions. This ensures that sensitive governance information is only delivered to authorized individuals.
+Certain notification categories are restricted to users with appropriate permissions. This ensures that sensitive governance information is only delivered to authorized individuals.
 
-### Who Can Access Grants Notifications?
+For example, Grants notifications are permission-gated and only visible to users with grants management permissions. If you don't see a specific category in your notification preferences, your connected wallet may not have the required access for that category.
 
-Grants notifications are available to wallets that have:
-
-- **Grants management permissions** for the specific client, OR
-- **Administrative access** to the client's grants program
-
-These permissions are managed at the client level and are typically assigned to grants committee members, program administrators, and designated reviewers.
-
-### What If I Don't See Grants Notifications?
-
-If the Grants category is missing or disabled in your notification preferences:
-
-1. Your connected wallet does not have the required permissions
-2. This is expected behavior, not a bug or error
-
-<Tip>
-**Need access?** Contact your community's administrator or grants program lead to request the appropriate permissions for your wallet address.
-</Tip>
-
-### Why Are Permissions Required?
-
-Permission-gating helps maintain confidentiality and ensures that sensitive information about grant applications, such as submission details and review decisions, is only shared with the right people. Once your wallet is granted the necessary permissions, the Grants category will automatically appear in your Notifications Hub.
-
-## FAQ & Troubleshooting
-
-### Why do I need to sign to manage notifications?
-
-The signature verifies that you own the connected wallet. This ensures your notification preferences are securely associated with your address and prevents unauthorized access. The signature does not authorize any transactions or grant any permissions.
-
-### I connected a webhook but didn't receive notifications
-
-If your Discord or Slack webhook isn't delivering notifications:
-
-1. Verify the webhook URL is correct and complete
-2. Confirm the webhook is active in your Discord/Slack settings
-3. Check that the target channel still exists and the webhook has permission to post
-4. Ensure you've enabled at least one notification event for that channel in the preferences matrix
-
-### Why can't I see Grants notifications?
-
-The Grants notification category is permission-gated. If you don't see it, your connected wallet doesn't have grants management permissions. Contact your community's administrator to request access.
-
-### Why are browser notifications not showing?
-
-Browser push notifications require:
-
-1. The notification subscription to be active for your current device
-2. Browser permissions to be granted (check your browser's notification settings)
-3. A completed wallet signature to link the device
-
-If notifications stop working, try disabling and re-enabling browser push in the Notifications Hub.
-
-### Can I use multiple channels at once?
-
-Yes. You can connect and enable all five channels simultaneously. Each channel operates independently; enable the same event on multiple channels if you want redundant notifications, or distribute different event types across different channels based on your preferences.
-
-### Do my preferences sync across communities?
-
-No. Notification preferences are saved per client. If you participate in governance across multiple Agora deployments (e.g., Uniswap and Optimism), you'll need to configure your preferences separately for each.
-
-### How do I disconnect a channel?
-
-Click **Edit** next to any connected channel, then click **Disconnect**. Your preferences will be preserved - if you reconnect the same channel later, your previous settings will be restored.
+Permission-gating helps maintain confidentiality and ensures that sensitive information is only shared with the right people. Once your wallet is granted the necessary permissions, the restricted category will automatically appear in your Notifications Hub.
 
 ---
 
